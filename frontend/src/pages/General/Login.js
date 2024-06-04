@@ -53,7 +53,7 @@ function Login({ setLoggedIn, setUser }) {
         src={sideBackground}
       />
       <form onSubmit={handleSubmit} className="login-form-container">
-        <h2 className="login-title">Login Now</h2>
+        <h2 className="login-title4">Login Now</h2>
         <div className="login-input-container">
           <input
             className="login-usernameInput"
@@ -77,26 +77,6 @@ function Login({ setLoggedIn, setUser }) {
             required
           />
           {renderErrorMessage("invalid")}
-        </div>
-        <div className="login-radio-container">
-          <input
-            type="radio"
-            id="recruiter"
-            name="userType"
-            value="recruiter"
-            checked={userType === "recruiter"}
-            onChange={() => setUserType("recruiter")}
-          />
-          <label htmlFor="recruiter">Recruiter</label>
-          <input
-            type="radio"
-            id="freelance"
-            name="userType"
-            value="freelance"
-            checked={userType === "freelance"}
-            onChange={() => setUserType("freelance")}
-          />
-          <label htmlFor="freelance">Freelancer</label>
         </div>
         <div className="login-checkbox-container">
           <input type="checkbox" id="rememberMe" name="rememberMe" />
@@ -132,7 +112,7 @@ function Login({ setLoggedIn, setUser }) {
             Facebook
           </button>
         </div>
-        <div className="login-normal-text">
+        <div className="login-normal-text2">
           Not a member?{" "}
           <span onClick={() => navigate("/Register")} className="login-sign-up">
             Sign up now

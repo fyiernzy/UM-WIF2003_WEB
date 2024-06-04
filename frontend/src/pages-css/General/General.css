@@ -115,6 +115,16 @@
   margin-top: 15px;
 }
 
+.login-title4 {
+  color: white; /* White color */
+  font-weight: bold; /* Bold */
+  font-family: "Lato", sans-serif; /* Lato font */
+  font-size: 26px;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
 .login-title2 {
   color: Black; /* White color */
   font-weight: bold; /* Bold */
@@ -273,6 +283,15 @@
   font-weight: regular; /* Apply bold font weight */
   color: white; /* Set the color of "Not a member?" to white */
   margin-top: 15px; /* Adjust margin as needed */
+  margin-bottom: 15px;
+  font-family: "Lato", sans-serif; /* Lato font */
+}
+
+.login-normal-text2 {
+  text-align: center; /* Center the text horizontally */
+  font-weight: regular; /* Apply bold font weight */
+  color: white; /* Set the color of "Not a member?" to white */
+  margin-top: 50px; /* Adjust margin as needed */
   font-family: "Lato", sans-serif; /* Lato font */
 }
 
