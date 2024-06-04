@@ -58,8 +58,8 @@ function Login({ setLoggedIn, setUser }) {
           <input
             className="login-usernameInput"
             placeholder="Email"
-            type="text"
-            name="uname"
+            type="email"
+            name="email"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
