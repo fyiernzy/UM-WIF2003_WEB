@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import "../../pages-css/Payment/Payment.css";
 import Tnc from "../../components/payment/tnc";
 import { useUserContext } from "../../context/UserContext";
@@ -118,7 +117,7 @@ function InvoiceList() {
   };
     
   const handleInvClick = () => {
-        handleDownload();
+        handleDownload(invoiceContent);
       };
 
   return (
