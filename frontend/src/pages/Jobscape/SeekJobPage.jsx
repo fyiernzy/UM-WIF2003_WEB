@@ -129,7 +129,7 @@ const SeekJobPage = () => {
         prevFilters.filter((filter) => filter !== name)
       );
     }
-    setCurrentPage(1); // Reset to the first page when filters change
+    setCurrentPage(1);
   };
 
   const projectPerPage = 7;
@@ -138,19 +138,22 @@ const SeekJobPage = () => {
     {
       filterTitle: "PROJECT CATEGORY",
       filterTypes: [
-        "Tech & IT",
-        "Creative & Design",
-        "Content Writing",
-        "Education & Training",
-        "Marketing",
-        "Finance",
-        "Healthcare",
-        "Engineering",
+        "Software Development",
+        "Tutoring & Education",
+        "Web Development",
+        "Graphics Design",
+        "Video Editing",
+        "Social Media Management",
+        "Content Creation",
+        "Photography",
+        "Customer Support",
+        "Research Assistance",
+        "Others",
       ],
     },
     {
       filterTitle: "PROJECT DURATION",
-      filterTypes: ["Short Term", "Long Term", "OnGoing"],
+      filterTypes: ["Short Term", "Long Term"],
     },
 
     {
@@ -160,7 +163,7 @@ const SeekJobPage = () => {
         "Selangor",
         "Negeri Sembilan",
         "Melaka",
-        "Johore",
+        "Johor",
         "Kelantan",
         "Terengganu",
         "Perak",
@@ -168,7 +171,6 @@ const SeekJobPage = () => {
         "Remote",
       ],
     },
-    // Add more FilterTab objects as needed
   ];
 
   const filteredProjects = projectTabs.filter((project) => {
