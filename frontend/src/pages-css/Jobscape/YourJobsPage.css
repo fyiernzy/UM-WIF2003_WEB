@@ -6,6 +6,7 @@
 }
 .your-jobs-container .your-jobs-title {
   font-weight: bold;
+  font-size: 36px;
 }
 .your-jobs-container .back-btn {
   align-self: flex-start;
@@ -18,6 +19,10 @@
 .your-jobs-container .back-btn a {
   text-decoration: none;
   color: #2d4777;
+}
+.your-jobs-container h3 {
+  font-weight: bold;
+  font-size: 28px;
 }
 .your-jobs-container .back-btn .bi-chevron-left {
   margin-right: 5px;

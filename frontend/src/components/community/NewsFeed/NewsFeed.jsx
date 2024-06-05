@@ -20,9 +20,8 @@ function NewsFeed() {
           <p>No news feed available</p>
         ) : (
           newsFeedList.map((post, index) => (
-            <PostProvider postId={post._id} post={post}>
+            <PostProvider key={index} postId={post._id} post={post}>
               <NewsFeedItem
-                key={index}
                 authorImage={null}
                 authorName={post.author.username}
                 postId={post._id}

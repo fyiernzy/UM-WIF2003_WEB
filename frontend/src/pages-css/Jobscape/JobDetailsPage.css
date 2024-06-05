@@ -4,7 +4,7 @@
   background-color: transparent;
   border: none;
   color: #2d4777;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
 }
 .job-details-page-container .back-btn a {
   text-decoration: none;
@@ -25,6 +25,9 @@
 .job-details-body {
   padding: 0vh 8vw 0vh 8vw;
 }
+.job-details-body p {
+  margin-bottom: 15px;
+}
 .job-title-block {
   display: flex;
   margin-bottom: 20px;
@@ -40,11 +43,19 @@
   justify-content: space-between;
   width: 100%;
 }
+.job-title-block .title-texts h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #2d4777;
+}
 .job-title-block .title-texts p {
   margin-bottom: 0;
 }
 .job-details-page-container .title-right .bookmark {
   margin-bottom: 10px;
+}
+.job-details-page-container .title-right .bookmark:hover {
+  cursor: pointer;
 }
 .job-details-page-container .title-right {
   display: flex;
@@ -56,6 +67,17 @@
 }
 .job-details-body .Filters {
   margin-bottom: 20px;
+}
+.job-details-body .skill-list,
+.job-details-body .uploaded-files-list {
+  list-style: disc;
+  padding-left: 32px;
+  margin: 10px 0px 10px 0px;
+}
+.job-details-body .uploaded-files:hover {
+  color: #2d4777;
+  cursor: pointer;
+  text-decoration: underline;
 }
 .job-details-body .job-desc,
 .job-details-body .duration,
@@ -69,6 +91,17 @@
 }
 .job-details-body .button-group {
   display: block;
+  color: #8590a4;
+}
+.job-details-body .button-group .applying-text {
+  color: white;
+  background-color: #a0a5ae;
+  border: none;
+  margin-right: 10px;
+}
+.job-details-body .button-group .applying-text:hover {
+  background-color: #828892;
+  cursor: pointer;
 }
 .job-details-body .button-group .accept {
   color: white;
@@ -96,4 +129,8 @@
   background-color: transparent;
   border: none;
   color: #2d4777;
+  transition: transform 0.3s ease;
+}
+.job-details-page-container .button-group .to-job-list .to-job-list-btn:hover {
+  transform: scale(1.1);
 }

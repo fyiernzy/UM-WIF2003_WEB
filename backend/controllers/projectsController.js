@@ -3,6 +3,13 @@
 import e, { json } from "express";
 import { Project } from "../models/projectModel.js";
 import User from "../models/userModel.js";
+import { Notification } from "../models/notificationModel.js";
+import { saveNotification } from "./notificationController.js";
+import {
+  buildApplyingMessage,
+  buildFileUploadedMessage,
+} from "../helpers/notificationMessageBuilder.js";
+import { sendNotif } from "../utils/socket-io.js";
 
 export const getAllProjects = async (req, res) => {
   try {
@@ -12,7 +19,7 @@ export const getAllProjects = async (req, res) => {
       const regex = new RegExp(searchQuery, "i");
       query = { projectTitle: regex };
     }
-    const projects = await Project.find(query);
+    const projects = await Project.find(query).populate("postedBy");
     // console.log("Backend - projects: " + projects);
     return res.status(200).json({
       count: projects.length,
@@ -39,7 +46,7 @@ export const postNewProject = async (req, res) => {
       deadline: new Date(req.body.deadline),
       projectBudget: req.body.projectBudget,
       requiredSkills: req.body.requiredSkills,
-      agreedToTerms: req.body.agreedToTerms
+      agreedToTerms: req.body.agreedToTerms,
     };
     const project = await Project.create(newProject).then((project) =>
       console.log("project created: ", project)
@@ -55,7 +62,7 @@ export const postNewProject = async (req, res) => {
 export const getProjectDetails = async (req, res) => {
   try {
     const projectId = req.params.projectId;
-    const project = await Project.findById(projectId);
+    const project = await Project.findById(projectId).populate("postedBy");
     return res.status(200).json(project);
   } catch (error) {
     console.log(error.message);
@@ -104,6 +111,40 @@ export const removeFavoriteProject = async (req, res) => {
     });
   }
 };
+
+export const getFavoriteProjects = async (req, res) => {
+  const userId = req.params.userId;
+  console.log("getfavprojects req.body: " + userId);
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ favoriteProjects: user.favoriteProjects });
+  } catch (error) {
+    res.status(400).json({
+      error: "Inside GET /favorite-project endpoint " + error.message,
+    });
+  }
+};
+export const getFavoriteProjectsDetails = async (req, res) => {
+  const userId = req.params.userId;
+  console.log("getfavprojects req.body: " + userId);
+  try {
+    const user = await User.findById(userId).populate({
+      path: "favoriteProjects",
+      populate: { path: "postedBy", select: "username" },
+    });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ favoriteProjects: user.favoriteProjects });
+  } catch (error) {
+    res.status(400).json({
+      error: "Inside GET /favorite-project endpoint " + error.message,
+    });
+  }
+};
 export const addApplyingProject = async (req, res) => {
   console.log(req.body);
   const { userId, projectId } = req.body;
@@ -116,11 +157,13 @@ export const addApplyingProject = async (req, res) => {
       user.applyingProjects.push(projectId);
       await user.save();
     }
-    const project = await Project.findById(projectId);
+    const project = await Project.findById(projectId).populate("postedBy");
     if (!project.applicants.includes(userId)) {
       project.applicants.push(userId);
       await project.save();
     }
+    const notif = buildApplyingMessage(userId, project.postedBy, project);
+    await saveNotification(notif);
     res.status(200).json({ user, project });
   } catch (error) {
     return res.status(400).json({
@@ -139,6 +182,30 @@ export const getApplyingProjects = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       error: "Inside GET /applying-project endpoint " + error.message,
+    });
+  }
+};
+
+export const removeApplyingProject = async (req, res) => {
+  const { userId, projectId } = req.body;
+  try {
+    const user = await User.findById(userId);
+    if (user.applyingProjects.includes(projectId)) {
+      user.applyingProjects.pull(projectId);
+      await user.save();
+    } else {
+      return res.status(200).json({ message: "no error" });
+    }
+    const project = await Project.findById(projectId);
+    if (project.applicants.includes(userId)) {
+      project.applicants.pull(userId);
+      await project.save();
+    } else {
+      return res.status(200).json({ message: "no error" });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: "Inside PUT /applying-project endpoint " + error.message,
     });
   }
 };
@@ -230,12 +297,15 @@ export const uploadCompletedWorks = async (req, res) => {
     const project = await Project.findByIdAndUpdate(req.body.projectId, {
       serviceProvider: req.body.userId,
       uploadedFiles: uploadedFiles,
-    });
+    })
+      .populate("postedBy")
+      .exec();
     const user = await User.findById(req.body.userId);
     // user.takenProjects.pull(req.body.projectId);
     // user.completedProjects.push(req.body.projectId);
     await user.save();
-
+    const notif = buildFileUploadedMessage(user, project);
+    await saveNotification(notif);
     return res.status(200).json(project);
   } catch (error) {
     return res

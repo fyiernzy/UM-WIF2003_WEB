@@ -1,0 +1,9 @@
+.upload-work-modal .submit-btn {
+  color: #2d4777;
+  background-color: white;
+  border: 1px solid #2d4777;
+}
+.upload-work-modal .submit-btn:hover {
+  background-color: #2d4777;
+  color: white;
+}

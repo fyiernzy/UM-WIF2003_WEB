@@ -5,6 +5,10 @@ import axios from "../../utils/customAxios";
 import ProjectPostedUser from "./ProjectPostedUser";
 import "../../components-css/jobscape/ProjectPostedTab.css";
 import Rating from "react-rating-stars-component";
+import { useNavigate } from 'react-router-dom';
+import default_avatar from "../../assets/icons/profile/avatar-default-symbolic-svgrepo-com.svg";
+
+
 
 const ProjectPostedTab = ({
   projectId,
@@ -15,9 +19,10 @@ const ProjectPostedTab = ({
   onMoveToInProgress,
   onDeleteProject,
 }) => {
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedApplicant, setSelectedApplicant] = useState(null); // Track selected applicant for details view
+  const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [applicants, setApplicants] = useState([]);
 
   const formatPostedDate = (dateString) => {
@@ -70,13 +75,13 @@ const ProjectPostedTab = ({
   };
 
   const handleShowModal = () => {
-    setSelectedApplicant(null); // Reset to applicant list view
+    setSelectedApplicant(null);
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     if (selectedApplicant) {
-      setSelectedApplicant(null); // Reset to applicant list view
+      setSelectedApplicant(null);
     } else {
       setShowModal(false);
     }
@@ -105,6 +110,10 @@ const ProjectPostedTab = ({
     setSelectedApplicant(applicant);
   };
 
+  const navigateToFreelancerProfilePage = () => {
+    navigate(`/Profile/${selectedApplicant._id}`);
+  };
+
   return (
     <div className="ProjectPostedTab">
       <div className="projectDetails">
@@ -128,39 +137,39 @@ const ProjectPostedTab = ({
       <Modal show={showModal} onHide={handleCloseModal} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title>
-            {selectedApplicant ? "Applicant Details" : "Applicant List"}
+            {selectedApplicant ? selectedApplicant.username : "Applicant List"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {selectedApplicant ? (
             <div className="ModalContent">
-              <div style={{ display: "flex", flexDirection: "column" }}>
+              <div style={{ display: "flex", flexDirection: "row" }}>
                 <img
-                  src={selectedApplicant.profilePic}
+                  src={selectedApplicant.profilePic ? `data:${selectedApplicant.profilePic};base64,${selectedApplicant.profilePic}` : default_avatar}
                   alt="Profile Picture"
                   className="ProfilePic"
                 />
                 <div>
                   <Rating
-                    value={selectedApplicant.ratingStar || 5}
+                    value={selectedApplicant.rating}
                     edit={false}
                     size={30}
                     activeColor="#ffd700"
                   />
                   <div className="Filters">
                     {Array.isArray(selectedApplicant.filters) &&
-                      selectedApplicant.filters.map((filter, index) => (
+                      selectedApplicant.skill.map((skills, index) => (
                         <Badge key={index} className="FilterBadge">
-                          {filter}
+                          {skills}
                         </Badge>
                       ))}
                     <Badge className="FilterBadge LocationBadge">
-                      {selectedApplicant.location || "Remote"}
+                      {selectedApplicant.state}
                     </Badge>
                   </div>
+                  <p className="Biography">{selectedApplicant.headline}</p>
                 </div>
               </div>
-              <p className="Biography">{selectedApplicant.biography}</p>
             </div>
           ) : (
             applicants.map((applicant, index) => (
@@ -170,6 +179,9 @@ const ProjectPostedTab = ({
                 onConfirm={handleConfirm}
                 onRemove={handleRemove}
                 showDetails={showDetails}
+                navigateToFreelancerProfilePage={
+                  navigateToFreelancerProfilePage
+                }
               />
             ))
           )}
@@ -179,9 +191,18 @@ const ProjectPostedTab = ({
             <Button
               variant="danger"
               onClick={handleShowDeleteModal}
-              style={{ backgroundColor: "red" }}
+              className="deleteprojectbtn"
             >
               Delete Project
+            </Button>
+          )}
+          {selectedApplicant && (
+            <Button
+              className="details-button"
+              onClick={navigateToFreelancerProfilePage}
+              style={{ justifyContent: "center" }}
+            >
+              View Profile
             </Button>
           )}
           <Button variant="secondary" onClick={handleCloseModal}>

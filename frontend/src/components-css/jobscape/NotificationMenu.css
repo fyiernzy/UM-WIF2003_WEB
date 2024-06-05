@@ -15,22 +15,30 @@
   margin-bottom: 10px;
 }
 .notification-header h5 {
+  font-weight: bold;
   margin-bottom: 0;
 }
 .notification-header .close-notif-btn {
   font-size: 30px;
   cursor: pointer;
+  transition: transform 0.3s ease;
 }
-.notification-item {
-  margin-bottom: 20px;
+.notification-header .close-notif-btn:hover {
+  transform: scale(1.2);
+}
+.notification-menu .notification-list {
+  margin-bottom: 10px;
+}
+.notification-menu .notification-pagination {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
-.notification-item p {
-  margin-bottom: 0;
+.notification-menu .notification-pagination .page-link {
+  border: none;
+  color: #2d4777;
 }
-.notification-item .bi-x {
-  font-size: 20px;
-  cursor: pointer;
+.notification-menu .notification-pagination .active .page-link {
+  background-color: #2d4777 !important;
+  color: white;
+  border: none;
 }

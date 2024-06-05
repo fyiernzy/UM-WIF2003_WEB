@@ -1,0 +1,32 @@
+.seekjob-top-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10%;
+}
+.seekjob-back-btn,
+.seekjob-top-container .to-job-list-btn {
+  margin-top: 3vh;
+  background-color: transparent;
+  border: none;
+  color: #2d4777;
+  transition: transform 0.3s ease;
+}
+.seekjob-back-btn a {
+  text-decoration: none !important;
+  color: #2d4777 !important;
+}
+.seekjob-back-btn .bi-chevron-left {
+  margin-right: 5px;
+}
+.seekjob-back-btn:hover,
+.seekjob-top-container .to-job-list-btn:hover {
+  transform: scale(1.1);
+  background-color: transparent;
+  color: #2d4777;
+}
+.seekjob-back-btn:active,
+.seekjob-top-container .to-job-list-btn:active {
+  background-color: transparent !important;
+  color: #223559 !important;
+}

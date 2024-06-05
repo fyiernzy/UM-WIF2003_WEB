@@ -12,7 +12,9 @@ class PostService {
       numberOfComments: post.comments.length,
     };
   }
+
   async postNewPost(userId, title, content, images) {
+    console.log("In PostController/postNewPost, images", images);
     const user = await User.findById(userId);
     handleNotFound(user, "User");
     const post = await Post.create({
@@ -21,6 +23,7 @@ class PostService {
       content: content,
       images: images,
     });
+    console.log("In PostController/postNewPost, posts", post);
     return post;
   }
 

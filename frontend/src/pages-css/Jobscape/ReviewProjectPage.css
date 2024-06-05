@@ -63,7 +63,7 @@
   margin: 0 auto 40px;
   border-radius: 10px;
   padding: 0 20px; /* Add padding to avoid sticking to edges */
-  justify-content: center;
+  justify-content: start;
   align-items: center; /* Align items vertically */
 }
 

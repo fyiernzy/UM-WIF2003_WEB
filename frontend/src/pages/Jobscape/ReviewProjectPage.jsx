@@ -79,7 +79,7 @@ const ReviewProjectPage = () => {
       </div>
 
       <div className="ProjectPosted">
-        <SmallTitle title="Project Posted" fontWeight="400" fontSize="32px" />
+        <SmallTitle title="Project Posted" fontWeight="400" fontSize="28px" />
         <div className="ProjectPostedList">
           {isProjectPostedFetched && ProjectPosted.length === 0 ? (
             <p
@@ -98,7 +98,7 @@ const ReviewProjectPage = () => {
                 budget={project.projectBudget}
                 postedDate={project.createdAt}
                 onMoveToInProgress={moveToInProgress}
-                onDeleteProject={deleteProject} // Pass the delete function
+                onDeleteProject={deleteProject} 
               />
             ))
           )}
@@ -106,7 +106,7 @@ const ReviewProjectPage = () => {
       </div>
 
       <div className="InProgress">
-        <SmallTitle title="In Progress" fontWeight="400" fontSize="32px" />
+        <SmallTitle title="In Progress" fontWeight="400" fontSize="28px" />
         <div className="InProgressList">
           {inProgressProjects.length === 0 ? (
             <p
@@ -132,7 +132,7 @@ const ReviewProjectPage = () => {
       </div>
 
       <div>
-        <SmallTitle title="Completed" fontWeight="400" fontSize="32px" />
+        <SmallTitle title="Completed" fontWeight="400" fontSize="28px" />
         <div className="CompletedProjectList">
           {completedProjects.length === 0 ? (
             <p

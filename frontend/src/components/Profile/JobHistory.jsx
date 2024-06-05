@@ -27,7 +27,7 @@ const JobHistory = ({ userId }) => {
   }, [completedProjects]);
   
   const handleClick = (projectId) => {
-    navigate(`/JobDetailsPage/${projectId}`);
+    navigate(`/SeekJobPage/job-details/${projectId}`);
   };
 
   if (error) {
@@ -37,7 +37,7 @@ const JobHistory = ({ userId }) => {
   if (completedProjects.length === 0) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <img style={{ width: '150px', height: '150px' }} src={noJob} alt="No Job" />
+        <img style={{ width: '150px', height: '100px' }} src={noJob} alt="No Job" />
       </div>
     );
   }

@@ -1,5 +1,5 @@
 .ProjectTab {
-    position: relative; /* Add this line */
+  position: relative; /* Add this line */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,6 +26,7 @@
 
 .ProjectTab:hover {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
 
 .LeftContent {

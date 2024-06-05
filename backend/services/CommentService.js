@@ -10,7 +10,11 @@ class CommentService {
       content,
     });
     await Post.findByIdAndUpdate(postId, { $push: { comments: comment._id } });
-    return comment;
+    const populatedComment = await Comment.findById(comment._id).populate(
+      "author"
+    );
+
+    return populatedComment;
   }
 
   async deleteComment(commentId) {
@@ -50,6 +54,12 @@ class CommentService {
     );
     handleNotFound(comment, "Comment");
     return comment;
+  }
+
+  async getCommentsByPostId(postId) {
+    const comments = await Comment.find({ post: postId }).populate("author");
+    handleNotFound(comments, "Comments");
+    return comments;
   }
 }
 

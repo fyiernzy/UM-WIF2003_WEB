@@ -8,8 +8,6 @@ router.post("/", async (req, res) => {
     console.log(req.body);
     const {
       postedBy,
-      companyLogo,
-      companyName,
       projectTitle,
       projectDescription,
       location,
@@ -31,12 +29,8 @@ router.post("/", async (req, res) => {
       uploadedFiles,
     } = req.body;
 
-    // Create a new project details document
-    //NOT SURE HAVE TO RETRIEVE THE LOGO HERE OR NOT
     const project = new Project({
       postedBy,
-      companyLogo,
-      companyName,
       projectTitle,
       projectDescription,
       location,

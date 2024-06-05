@@ -1,10 +1,23 @@
 .completed-jobs-container {
   width: 100%;
-  margin-bottom: 8vh;
   margin-top: 4vh;
+  margin-bottom: 8vh;
+  height: 300px;
 }
 .completed-jobs-container .jobs-list {
+  height: 300px;
   display: flex;
   overflow-x: auto;
-  justify-content: space-evenly;
+  width: 70vw; /* Adjust as needed */
+  margin: 0 auto 40px;
+  border-radius: 10px;
+  padding: 0 20px; /* Add padding to avoid sticking to edges */
+  justify-content: start;
+  align-items: center; /* Align items vertically */
+}
+.completed-jobs-container .jobs-list .no-projects {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  color: red;
 }

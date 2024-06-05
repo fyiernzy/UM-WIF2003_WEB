@@ -13,7 +13,7 @@ router.post("/posts", upload.array("images"), async (req, res) => {
 
     const { title, content, userId } = req.body;
     const images = req.files.map((file) => ({
-      buffer: file.buffer,
+      path: file.filename,
       originalname: file.originalname,
       mimetype: file.mimetype,
     }));

@@ -34,7 +34,9 @@ export default function ApplyingJobsList({ userId }) {
               );
             })
           ) : (
-            <p>No projects applied.</p>
+            <div className="no-projects">
+              <p>No projects applied.</p>
+            </div>
           )}
         </div>
       </div>

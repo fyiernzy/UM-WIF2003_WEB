@@ -15,9 +15,13 @@ import {
   uploadCompletedWorks,
   addApplyingProject,
   getApplyingProjects,
+  getFavoriteProjects,
+  removeApplyingProject,
+  getFavoriteProjectsDetails,
 } from "../controllers/projectsController.js";
 import mongoose, { mongo } from "mongoose";
 import { downloadFile } from "../middlewares/downloadMiddleware.js";
+
 const router = e.Router();
 // Configure storage for multer
 const storage = multer.diskStorage({
@@ -40,18 +44,21 @@ router.post("/", postNewProject);
 router.get("/", getAllProjects);
 // GET /download - Downloads file that is saved in 'public/uploads'
 router.get("/download", downloadFile);
-// GET /projects/:projectId - Retrieves project details of projectId
-router.get("/:projectId", getProjectDetails);
 
 // POST /favorite-project - Saves projectId into current user's favoriteProjects
 router.post("/favorite-project", saveFavoriteProject);
-
+// GET /favorite-project - Get user's favoriteProjects
+router.get("/favorite-project/:userId", getFavoriteProjects);
+// GET /favorite-project-details - Get user's favoriteProjects and details
+router.get("/favorite-project-details/:userId", getFavoriteProjectsDetails);
 // POST /remove-favorite-project - Removes projectId into current user's favoriteProjects
 router.post("/remove-favorite-project", removeFavoriteProject);
 
 // POST /applying-project - Adds projectId into current user's applyingProjects
 router.post("/applying-project", addApplyingProject);
 
+// PUT /applying-project - Removes an applying project
+router.put("/applying-project/remove", removeApplyingProject);
 // GET /applying-project - Retrieves all applying projects of current user
 router.get("/applying-project/:userId", getApplyingProjects);
 
@@ -69,6 +76,8 @@ router.get("/completed-project/:userId", getCompletedProjects);
 
 // POST /upload-work - Saves service provider's uploaded works into server
 router.post("/upload-works", upload.array("files"), uploadCompletedWorks);
+// GET /projects/:projectId - Retrieves project details of projectId
+router.get("/:projectId", getProjectDetails);
 
 // router.post("/get-applicants", async (req, res) => {
 //   try {

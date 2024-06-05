@@ -34,7 +34,9 @@ export default function InProgressJobsList({ userId }) {
               );
             })
           ) : (
-            <p>No projects taken.</p>
+            <div className="no-projects">
+              <p>No projects taken.</p>
+            </div>
           )}
         </div>
       </div>

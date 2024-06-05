@@ -46,3 +46,13 @@
   height: auto;
   margin-right: 10px;
 }
+.modal-content .modal-footer .modal-close {
+  background-color: white;
+  border: 1px #2d4777 solid;
+  color: #2d4777;
+  transition: all 0.3s ease;
+}
+.modal-content .modal-footer .modal-close:hover {
+  background-color: #2d4777;
+  color: white;
+}

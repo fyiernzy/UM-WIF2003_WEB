@@ -16,10 +16,6 @@ export const fetchPostStats = async (postId) => {
 // Function to submit a new post
 export const postPost = async (postData, action) => {
   try {
-    // Log FormData content
-    for (let pair of postData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-    }
     const res = await axios.post(`${API_URL}/posts`, postData, {
       headers: {
         "Content-Type": "multipart/form-data",

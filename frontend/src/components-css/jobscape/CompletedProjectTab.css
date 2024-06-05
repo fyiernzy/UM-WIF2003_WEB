@@ -10,13 +10,20 @@
   align-items: center;
   flex-shrink: 0;
   margin-right: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Add this line */
+  box-shadow: 10px 5px 15px 3px rgba(0, 0, 0, 0.4);
+  overflow: hidden; 
+  transition: transform 0.2s ease-in-out; 
+}
+
+.CompletedProjectTab:hover {
+  transform: translateY(-5px);
 }
 
 .CompletedProjectTab .projectDetails {
   width: 100%;
-  white-space: nowrap; /* Add this line */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .CompletedProjectTab .content {

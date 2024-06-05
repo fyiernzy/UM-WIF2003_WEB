@@ -1,31 +1,28 @@
 import { useState, useEffect } from "react";
 import CommentInput from "./CommentInput";
 import Comment from "./Comment";
-import { fetchComments, postComments } from "../../../api/commentsApi";
-import { usePostContext } from "../../../context/PostContext";
-import { useUserContext } from "../../../context/UserContext";
+import { fetchComments, postComments } from "../../../../api/commentsApi";
+import { usePostContext } from "../../../../context/PostContext";
+import { useUserContext } from "../../../../context/UserContext";
 
 function CommentSection() {
-  const postId = usePostContext();
-  const user = useUserContext();
+  const { postId } = usePostContext();
+  const { user } = useUserContext();
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    fetchComments(postId).then((data) => setComments(data));
+    const loadComments = async () => {
+      const data = await fetchComments(postId);
+      setComments(data);
+    };
+
+    loadComments();
   }, [postId]);
 
   const handleCommentSubmit = async (text) => {
-    const newComment = postComments(postId, user._id, text);
-
-    const formattedComment = {
-      text: newComment.content,
-      author: "useContext User",
-      avatar: "useContext User",
-      timestamp: new Date(newComment.timestamp),
-      likes: newComment.likes.length,
-    };
-
-    setComments((prevComments) => [...prevComments, formattedComment]);
+    const newComment = await postComments(postId, user._id, text);
+    console.log("newComment in CommentSection.jsx: ", newComment);
+    setComments((prevComments) => [...prevComments, newComment]);
   };
 
   const handleLike = (index) => {

@@ -17,16 +17,11 @@ import PositionFreelance from "../../assets/icons/jobscape/freelancer.svg";
 import WorkRecruit from "../../assets/icons/jobscape/recruit1.svg";
 import WorkFreelance from "../../assets/icons/jobscape/freelance1.svg";
 import WorkMutual from "../../assets/icons/jobscape/mutual.svg";
+import { useUserContext } from "../../context/UserContext";
 
 const JobscapeMainPage = () => {
   const [searchValue, setSearchValue] = useState("");
-  const categories = [
-    "Web Developer",
-    "Graphic Design",
-    "Content Creation",
-    "Data Analysis",
-    "Project Management",
-  ];
+  const { user } = useUserContext();
 
   const positionTabs = [
     {
@@ -50,7 +45,7 @@ const JobscapeMainPage = () => {
       paddingLeft: "5%",
       paddingRight: "10%",
       textAlign: "right",
-      positionType: "I AM A FREELANCE!",
+      positionType: "I AM A FREELANCER!",
       content:
         "Are you a freelancer looking for exciting opportunities to showcase your skills and connect with clients? Look no further! Our platform is a hub for talented freelancers like you to find projects, collaborate with clients, and grow your freelance business.",
       buttonType: "Seeking",
@@ -83,7 +78,7 @@ const JobscapeMainPage = () => {
   const handleSearchChange = (event) => {
     setSearchValue(event.target.value);
   };
-  
+
   const handleClick = () => {
     // Handle click action here
   };
@@ -125,14 +120,22 @@ const JobscapeMainPage = () => {
             marginTop: "20px",
           }}
         >
-          <Link to="/YourJobs">
-            <Button
-              className="floating-your-jobs-btn"
-              style={{ backgroundColor: "#ffffff", color: "#2D4877", border:"none"}}
-            >
-              Your Jobs <i className="bi bi-exclamation-circle-fill" />
-            </Button>
-          </Link>
+          {user.role == "freelancer" ? (
+            <Link to="/YourJobs">
+              <Button
+                className="floating-your-jobs-btn"
+                style={{
+                  backgroundColor: "#ffffff",
+                  color: "#2D4877",
+                  border: "none",
+                }}
+              >
+                Your Jobs <i className="bi bi-exclamation-circle-fill" />
+              </Button>
+            </Link>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
 

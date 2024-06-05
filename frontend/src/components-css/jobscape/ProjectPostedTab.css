@@ -11,12 +11,20 @@
   align-items: center;
   flex-shrink: 0;
   padding-bottom: 1%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 5px 15px 3px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out; 
+}
+
+.ProjectPostedTab:hover {
+  transform: translateY(-5px);
 }
 
 .ProjectPostedTab .projectDetails{
   width: 100%;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ProjectPostedTab .content {
@@ -56,4 +64,12 @@
 
 .ProjectPostedTab .MoreBtn:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.deleteprojectbtn{
+  background-color: rgb(207, 55, 55);
+}
+.deleteprojectbtn:hover{
+  background-color: red;
 }

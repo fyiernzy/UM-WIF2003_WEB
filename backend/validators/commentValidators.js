@@ -12,15 +12,17 @@ export const commentIdSchema = Joi.object({
   commentId: Joi.string().required(),
 });
 
-export const contentSchema = Joi.object({
+export const commentSchema = Joi.object({
   content: Joi.string().min(1).required(),
 });
 
-export const addCommentSchema = postIdSchema
-  .concat(userIdSchema)
-  .concat(contentSchema);
+export const addCommentSchema = Joi.object({
+  postId: Joi.string().required(),
+  userId: Joi.string().required(),
+  comment: Joi.string().min(1).required(),
+});
 
-export const modifyCommentSchema = commentIdSchema.concat(contentSchema);
+export const modifyCommentSchema = commentIdSchema.concat(commentSchema);
 
 export const deleteCommentSchema = commentIdSchema;
 

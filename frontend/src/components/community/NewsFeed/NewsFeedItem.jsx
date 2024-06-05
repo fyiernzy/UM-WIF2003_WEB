@@ -1,12 +1,12 @@
 // src/components/NewsFeed/NewsFeedItem.js
 import { useState, useEffect } from "react";
-import Controls from "./Controls";
 import ImageGallery from "./ImageGallery";
 import ProfileHeader from "./ProfileHeader";
 import moment from "moment";
 import NewsFeedStats from "./NewsFeedStats";
 import { fetchPostStats } from "../../../api/postApi";
 import { getRandomAvatar } from "../../../utils/tools";
+import ActionButtons from "./ActionButtons";
 
 function NewsFeedItem({
   authorImage,
@@ -63,11 +63,7 @@ function NewsFeedItem({
 
       <hr className="tw-my-4 tw-border-slate-500" />
 
-      <Controls
-        postId={postId}
-        setNumberOfLikes={setNumberOfLikes}
-        setNumberOfComments={setNumberOfComments}
-      />
+      <ActionButtons />
     </div>
   );
 }

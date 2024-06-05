@@ -47,7 +47,13 @@ export default function UploadWorkModal(props) {
     return Math.round(fileSize / 1024);
   };
   return (
-    <Modal {...props} centered size="lg" backdrop="static">
+    <Modal
+      {...props}
+      centered
+      size="lg"
+      backdrop="static"
+      className="upload-work-modal"
+    >
       <Modal.Header closeButton>
         <Modal.Title>Upload Work</Modal.Title>
       </Modal.Header>
@@ -91,7 +97,7 @@ export default function UploadWorkModal(props) {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" onClick={onSubmit}>
+        <Button variant="primary" onClick={onSubmit} className="submit-btn">
           Submit
         </Button>
       </Modal.Footer>

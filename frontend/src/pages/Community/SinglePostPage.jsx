@@ -36,24 +36,26 @@ function SinglePostPage() {
   console.log("SinglePostPage: ", post);
 
   return (
-    <div className="tw-px-12">
-      {post ? (
-        <PostProvider postId={post._id} post={post}>
-          <NewsFeedItem
-            authorImage={post.author?.profilePic || null}
-            authorName={post.author?.username || "Unknown"}
-            postId={post._id}
-            postTitle={post.title}
-            postContent={post.content}
-            postImages={post.images || []}
-            postCreatedTime={post.createdAt}
-            numberOfLikes={post.likes.length}
-            numberOfComments={post.comments.length}
-          />
-        </PostProvider>
-      ) : (
-        <div>404 Not Found</div>
-      )}
+    <div className="tw-w-screen">
+      <div className="tw-w-4/5 lg:tw-w-3/5 tw-mx-auto tw-px-12 tw-mt-10">
+        {post ? (
+          <PostProvider postId={post._id} post={post}>
+            <NewsFeedItem
+              authorImage={post.author?.profilePic || null}
+              authorName={post.author?.username || "Unknown"}
+              postId={post._id}
+              postTitle={post.title}
+              postContent={post.content}
+              postImages={post.images || []}
+              postCreatedTime={post.createdAt}
+              numberOfLikes={post.likes.length}
+              numberOfComments={post.comments.length}
+            />
+          </PostProvider>
+        ) : (
+          <div>404 Not Found</div>
+        )}
+      </div>
     </div>
   );
 }

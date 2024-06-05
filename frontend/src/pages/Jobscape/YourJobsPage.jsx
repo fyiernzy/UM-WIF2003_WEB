@@ -10,6 +10,7 @@ import NotificationMenu from "../../components/jobscape/NotificationMenu";
 import ApplyingJobsList from "../../components/jobscape/ApplyingJobsList";
 import { useUserContext } from "../../context/UserContext";
 import useAuth from "../../hooks/useAuth";
+import NotificationBell from "../../components/jobscape/NotificationBell";
 
 export default function YourJobsPage() {
   const navigate = useNavigate();
@@ -50,23 +51,9 @@ export default function YourJobsPage() {
         </Button>
         <div className="your-jobs-header">
           <div style={{ textAlign: "center" }}>
-            <h3 className="your-jobs-title">Your Jobs</h3>
+            <h1 className="your-jobs-title">Your Jobs</h1>
           </div>
-          <div className="notif-bell">
-            <i
-              className={`bi bell ${bellFill ? "bi-bell-fill" : "bi-bell"}`}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              onClick={toggleNotif}
-            />
-            <span className="notif-count">{notifications.length}</span>
-            <NotificationMenu
-              isOpen={isNotifOpen}
-              notifs={notifications}
-              onClose={() => setIsNotifOpen(false)}
-              onRemoveNotifItem={onRemoveNotifItem}
-            />
-          </div>
+          <NotificationBell />
         </div>
         <h3 className="completed-jobs-title">Applying Jobs</h3>
         <ApplyingJobsList userId={user._id} />

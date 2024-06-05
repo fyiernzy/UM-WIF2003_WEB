@@ -1,6 +1,11 @@
 import express from "express";
 import { Project } from "../models/projectModel.js";
 import User from "../models/userModel.js";
+import {
+  buildApplicationSuccessMessage,
+  buildFileApprovedMessage,
+} from "../helpers/notificationMessageBuilder.js";
+import { saveNotification } from "../controllers/notificationController.js";
 
 const router = express.Router();
 
@@ -13,11 +18,22 @@ router.get("/:status", async (req, res) => {
     let projects;
 
     if (status === "posted") {
-      projects = await Project.find({ taken: false, completed: false, postedBy: userId });
+      projects = await Project.find({
+        taken: false,
+        completed: false,
+        postedBy: userId,
+      });
     } else if (status === "in-progress") {
-      projects = await Project.find({ taken: true, completed: false, postedBy: userId }).populate("serviceProvider");
+      projects = await Project.find({
+        taken: true,
+        completed: false,
+        postedBy: userId,
+      }).populate("serviceProvider");
     } else if (status === "completed") {
-      projects = await Project.find({ completed: true, postedBy: userId }).populate("serviceProvider");
+      projects = await Project.find({
+        completed: true,
+        postedBy: userId,
+      }).populate("serviceProvider");
     } else {
       return res.status(400).json({ message: "Invalid status parameter" });
     }
@@ -28,19 +44,18 @@ router.get("/:status", async (req, res) => {
   }
 });
 
-
 // Route to fetch applicants for a specific project
-router.get('/posted/:projectId/applicants', async (req, res) => {
+router.get("/posted/:projectId/applicants", async (req, res) => {
   const { projectId } = req.params;
 
   try {
-    const project = await Project.findById(projectId).populate('applicants');
+    const project = await Project.findById(projectId).populate("applicants");
     if (!project) {
-      return res.status(404).json({ message: 'Project not found' });
+      return res.status(404).json({ message: "Project not found" });
     }
     res.json(project.applicants);
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -60,7 +75,7 @@ router.put("/posted/:projectId/confirm", async (req, res) => {
       await user.save();
     }
 
-    const project = await Project.findById(projectId);
+    const project = await Project.findById(projectId).populate("postedBy");
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
@@ -69,7 +84,8 @@ router.put("/posted/:projectId/confirm", async (req, res) => {
     project.serviceProvider = userID;
     project.taken = true;
     await project.save();
-
+    const notif = buildApplicationSuccessMessage(userID, project);
+    await saveNotification(notif);
     res.json({ project, user });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
@@ -136,6 +152,9 @@ router.post("/:projectId/accept-file", async (req, res) => {
     user.takenProjects.pull(projectId);
     user.completedProjects.push(projectId);
     await user.save();
+
+    const notif = buildFileApprovedMessage(user, project);
+    await saveNotification(notif);
 
     res.json({ message: "File accepted" });
   } catch (error) {

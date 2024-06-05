@@ -6,6 +6,7 @@ import { useUserContext } from "../context/UserContext";
 const useAuth = () => {
   const { user, updateUser } = useUserContext();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +18,8 @@ const useAuth = () => {
       // Navigate to homepage if token is invalid
       if (!result.status) {
         console.log("navigated to home with useAuth");
-        navigate("/");
+        setShowLoginModal(true);
+        // navigate("/");
         setIsAuthenticated(false);
       } else {
         // Sets the 'user' in userContext with user object
@@ -34,6 +36,6 @@ const useAuth = () => {
     }
   }, [navigate, user, updateUser]);
 
-  return isAuthenticated;
+  return { isAuthenticated, showLoginModal, setShowLoginModal };
 };
 export default useAuth;

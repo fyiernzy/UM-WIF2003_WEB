@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function JobAcceptedModal(props) {
   return (
-    <Modal {...props} centered backdrop="static">
+    <Modal {...props} centered backdrop="static" className="applying-modal">
       <Modal.Body className="border-0 accepted-container">
         <h3>You have applied this job!</h3>
         <p style={{ fontWeight: 300 }}>
@@ -12,15 +12,19 @@ export default function JobAcceptedModal(props) {
         </p>
         <div>
           <div className="job-title">
-            <p>Job Title:</p>
-            <p className="title-text" style={{ fontWeight: 300 }}>
-              Web Development by DELL Technology
+            <p>
+              Job Title:&nbsp;&nbsp;
+              <span className="title-text" style={{ fontWeight: 300 }}>
+                {props.projectName}
+              </span>
             </p>
           </div>
           <div className="job-deadline">
-            <p>Job deadline:</p>
-            <p className="deadline-text" style={{ fontWeight: 300 }}>
-              Before August 2024
+            <p>
+              Job deadline:&nbsp;&nbsp;
+              <span className="deadline-text" style={{ fontWeight: 300 }}>
+                {props.deadline}
+              </span>
             </p>
           </div>
         </div>

@@ -4,29 +4,29 @@ import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { Badge } from "react-bootstrap";
 import "../../components-css/jobscape/ProjectTab.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../../utils/customAxios";
 import {
   favoriteProject,
   removeFavoriteProject,
   API_URL,
 } from "../../api/projectApi";
+import { useUserContext } from "../../context/UserContext";
 
 const ProjectTab = ({
   projectId,
-  CompanyLogo,
   projectName,
   companyName,
   projectCategory,
   filters,
   timePosted,
+  favorited,
 }) => {
   let navigate = useNavigate();
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(favorited);
   const [hovered, setHovered] = useState(false);
 
-  // Fake user id just for testing
-  // NEED TO BE MODIFIED ONCE USER SESSION IS IMPLEMENTED
-  const userId = "664a0e34bc1a43dbcb1f6d74";
+  const { user } = useUserContext();
+  const userId = user._id;
 
   // Save if not fav, unsave if fav
   const handleSaveClick = async (event) => {
@@ -42,23 +42,6 @@ const ProjectTab = ({
       console.error("Error fav/remove fav project: ", error);
     }
   };
-
-  useEffect(() => {
-    const fetchUserFavoriteProjects = async () => {
-      console.log("UseEffect has been executed");
-      try {
-        const user = await axios.get(`${API_URL}/user/${userId}`);
-        const favProjects = user.data.favoriteProjects;
-        console.log("Fetch user from frontend: ", favProjects);
-        if (Array.isArray(favProjects) && favProjects.includes(projectId)) {
-          setSaved(true);
-        }
-      } catch (error) {
-        console.error("Error fetching user favorite projects: ", error);
-      }
-    };
-    fetchUserFavoriteProjects();
-  }, []);
 
   const handleMouseEnter = () => {
     setHovered(true);
@@ -80,7 +63,6 @@ const ProjectTab = ({
       onClick={handleClick}
     >
       <div className="LeftContent">
-        <img src={CompanyLogo} alt="Company Logo" className="CompanyLogo" />
         <div>
           <p className="ProjectTitle">{projectName}</p>
           <p className="CompanyInfo">

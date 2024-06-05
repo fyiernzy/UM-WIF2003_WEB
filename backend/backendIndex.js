@@ -8,10 +8,16 @@ import postRoute from "./routes/postRoute.js";
 import usersRoute from "./routes/usersRoute.js";
 import paymentRoute from "./routes/paymentRoute.js";
 import authRoute from "./routes/authRoute.js";
+import commentRoute from "./routes/commentRoutes.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import notificationRoute from "./routes/notificationRoute.js";
+import { createServer } from "http";
+import { socketConnection } from "./utils/socket-io.js";
+import { fileURLToPath } from "url";
+import path from "path";
 
 dotenv.config();
 const app = express();
@@ -31,13 +37,19 @@ app.use(cors(corsOptions));
 // Use body-parser
 app.use(bodyParser.json());
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
+console.log(path.join(__dirname, "public/uploads"));
 app.use("/recruite", projectDetailsRoute);
 app.use("/recruite", reviewProjectRoute);
 app.use("/projects", projectsRouter);
 app.use("/api/community", postRoute);
+app.use("/api/community", commentRoute);
 app.use("/users", usersRoute);
 app.use("/payment", paymentRoute);
 app.use("/auth", authRoute);
+app.use("/notification", notificationRoute);
 
 app.get("*", (req, res) => {
   console.log(req);
@@ -61,6 +73,10 @@ mongoose
     console.log(error);
   });
 
+// Create socket io server
+const httpServer = createServer(app);
+socketConnection(httpServer);
+
   app.get('/google-user-info', async (req, res) => {
     const { accessToken } = req.query;
     try {
@@ -80,6 +96,6 @@ mongoose
   });
 
 // Start the server
-app.listen(PORT || 5050, () => {
+httpServer.listen(PORT || 5050, () => {
   console.log(`Server is listening on port ${PORT}`);
 });

@@ -6,9 +6,12 @@ import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FaFacebook, FaWhatsapp, FaTelegram, FaEnvelope } from "react-icons/fa";
+import { usePostContext } from "../../../../context/PostContext";
 
-const ShareModal = ({ isOpen, onRequestClose, link }) => {
+const ShareModal = ({ isOpen, onRequestClose }) => {
   const [copySuccess, setCopySuccess] = React.useState("");
+  const { post } = usePostContext();
+  const link = `http://localhost:3000/Community/posts/${post._id}`;
 
   const handleCopy = () => {
     setCopySuccess("Link copied!");

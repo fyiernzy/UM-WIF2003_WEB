@@ -1,22 +1,21 @@
-import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
-import * as timeago from "timeago.js";
+import { formatDistanceToNow } from "date-fns";
+import ProfileImage from "../../ProfileImage";
 
 function Comment({ comment, onLike }) {
   return (
     <div className="tw-flex tw-mb-4 tw-items-start">
-      <img
-        src={comment.avatar}
-        alt="avatar"
-        className="tw-w-10 tw-h-10 tw-rounded-full tw-mr-3"
-      />
+      <ProfileImage user={comment.author} className="tw-w-10 tw-h-10 tw-mr-3" />
+
       <div className="tw-flex-grow tw-bg-white tw-p-3 tw-rounded-lg tw-shadow">
         <div className="tw-flex tw-justify-between tw-items-center">
           <div>
-            <span className="tw-font-bold">{comment.author}</span>
+            <span className="tw-font-bold">{comment.author.username}</span>
             <span className="tw-text-xs tw-text-gray-500 tw-ml-2">
-              {timeago.format(comment.timestamp)}
+              {formatDistanceToNow(new Date(comment.createdAt), {
+                addSuffix: true,
+              })}
             </span>
           </div>
           <button
@@ -27,7 +26,7 @@ function Comment({ comment, onLike }) {
             <span>{comment.likes}</span>
           </button>
         </div>
-        <p className="tw-mt-2">{comment.text}</p>
+        <p className="tw-my-2">{comment.content}</p>
       </div>
     </div>
   );

@@ -5,7 +5,6 @@ import {
   CreditOrDebitCard,
 } from "../models/payment.js";
 import { Project } from "../models/projectModel.js";
-import User from "../models/userModel.js";
 
 const router = express.Router();
 
@@ -127,36 +126,38 @@ router.get("/task", async (req, res) => {
   }
 });
 
-// Invoice
-// router.get('/invoices', async (req, res) => {
-//   try {
-//     const { postedBy } = req.query; // Destructuring postedBy from req.query
-//     if (!postedBy) {
-//       return res.status(400).json({ message: "User ID is required." });
-//     }
-  
-//     const projects = await Project.find({ postedBy: postedBy }, 'projectTitle projectBudget');
-//     res.json(projects);
-//    catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// });
+// Invoice List
+  router.get('/invoices/:postedBy', async (req, res) => {
+    try {
+      const { postedBy } = req.params;
+      if (!postedBy) {
+        return res.status(400).json({ message: "User ID is required." });
+      }
 
-router.get('/invoices', async (req, res) => {
-  const userId = req.query.userId;
-  try {
-    const { postedBy } = req.query;
-    if (!postedBy) {
-      return res.status(400).json({ message: "User ID is required." });
+      let projects = await Project.find({ postedBy : postedBy , completed : true }, 'projectTitle projectBudget');
+      res.status(200).json(projects);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error." });
     }
+  });
 
-    let projects = await Project.find({ postedBy: postedBy }, 'projectTitle projectBudget');
-    res.status(200).json(projects);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error." });
-  }
-});
+  // Invoice 
+  router.get('/invoiceContent/:postedBy', async (req, res) => {
+    try {
+      const { postedBy } = req.params;
+      if (!postedBy) {
+        return res.status(400).json({ message: "User ID is required." });
+      }
+
+      let projects = await Project.find({ postedBy : postedBy }, 'projectTitle projectBudget projectDescription location projectCategory projectDuration contactInformation deadline additionalNotes');
+      res.status(200).json(projects);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error." });
+    }
+  });
+
 
 
 export default router;

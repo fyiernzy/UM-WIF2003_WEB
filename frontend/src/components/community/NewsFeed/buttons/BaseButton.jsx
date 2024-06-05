@@ -1,31 +1,31 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Button from "react-bootstrap/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function ControlItem({
+function BaseButton({
   icon,
   label,
   onClickFunction,
   isActive,
-  whileTapAnimation,
   inActiveClassName,
 }) {
   return (
     <motion.div
       whileHover={{ scale: 0.9 }}
-      className="tw-flex-grow tw-flex tw-justify-center tw-items-center"
+      whileTap={{ scale: 0.9 }}
       onClick={onClickFunction}
-      whileTapAnimation={whileTapAnimation}
+      className="tw-flex-grow tw-flex tw-justify-center tw-items-center"
     >
       <Button
         variant="light"
-        className="tw-flex-grow tw-flex tw-justify-center tw-items-center tw-p-3 tw-pl-0 tw-text-md"
+        className="tw-flex-grow tw-flex tw-justify-center tw-items-center tw-p-3 tw-pl-0 tw-text-md tw-w-full"
       >
-        {React.cloneElement(icon, {
-          className: `${icon.props.className} ${
-            isActive ? inActiveClassName : ""
-          }`,
-        })}
+        <FontAwesomeIcon
+          icon={icon}
+          className={`tw-mr-4 ${isActive ? inActiveClassName : ""}`}
+        />
+
         <span
           className={`tw-m-0 tw-text-md ${isActive ? inActiveClassName : ""}`}
         >
@@ -36,4 +36,4 @@ function ControlItem({
   );
 }
 
-export default ControlItem;
+export default BaseButton;

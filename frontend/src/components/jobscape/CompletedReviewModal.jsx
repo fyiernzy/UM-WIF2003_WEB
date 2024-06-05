@@ -69,43 +69,54 @@ export default function CompletedReviewModal(props) {
     <Modal {...props} size="lg" centered>
       <Modal.Header closeButton className="border-0" />
       <Modal.Body className="border-0 review-container">
-        <p>Your requester is {setSatisfactionText()} with your deliverable!</p>
-        <div className="emoji-row">
-          <Rating
-            value={satisfactionRating}
-            edit={false}
-            size={40}
-            activeColor="#ffd700"
-          />
-        </div>
-        <p>Your project ratings:</p>
-        <Rating
-          value={projectRating}
-          edit={false}
-          size={40}
-          activeColor="#ffd700"
-        />
-        <p>Project Feedback</p>
-        <div className="project-feedback">
-          <p>{projectFeedback}</p>
-        </div>
-        <p>Your Ratings:</p>
-        <Rating
-          value={collaboratorRating}
-          edit={false}
-          size={40}
-          activeColor="#ffd700"
-        />
-        <div className="person-feedback">
-          <p>{collaboratorFeedback}</p>
-        </div>
+        {reviewValues == null ? (
+          <h3>Your collaborator, {props.name} has not given a review yet.</h3>
+        ) : (
+          <>
+            <Modal.Title>Here's the review!</Modal.Title>
+            <p>
+              Your requester is {setSatisfactionText()} with your deliverable!
+            </p>
+            <div className="emoji-row">
+              <Rating
+                value={satisfactionRating}
+                edit={false}
+                size={40}
+                activeColor="#ffd700"
+              />
+            </div>
+            <p>Your project ratings:</p>
+            <Rating
+              value={projectRating}
+              edit={false}
+              size={40}
+              activeColor="#ffd700"
+            />
+            <p>Project Feedback</p>
+            <div className="project-feedback">
+              <p>{projectFeedback}</p>
+            </div>
+            <p>Your Ratings:</p>
+            <Rating
+              value={collaboratorRating}
+              edit={false}
+              size={40}
+              activeColor="#ffd700"
+            />
+            <div className="person-feedback">
+              <p>{collaboratorFeedback}</p>
+            </div>
+          </>
+        )}
       </Modal.Body>
       <Modal.Footer className="border-0 review-footer">
         <div className="feedback-from">
           <p>Feedback from:</p>
-          <p>{"need to be replaced by companyName"}</p>
+          <p>{props.name}</p>
         </div>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={props.onHide} className="modal-close">
+          Close
+        </Button>
       </Modal.Footer>
     </Modal>
   );

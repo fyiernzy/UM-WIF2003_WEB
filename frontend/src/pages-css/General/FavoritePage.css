@@ -1,4 +1,20 @@
+.favorite-container {
+  width: 100%;
+  padding: 0 10%;
+}
+.favorite-container .favorite-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.favorite-jobs-container {
+  display: flex;
+  flex-direction: column;
+  padding: 3% 10%;
+  min-height: 60vh;
+}
 .favorite-container .back-btn {
+  margin-top: 3vh;
   align-self: flex-start;
   background-color: transparent;
   border: none;

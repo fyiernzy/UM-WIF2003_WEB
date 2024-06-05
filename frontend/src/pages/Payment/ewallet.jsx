@@ -20,8 +20,6 @@ function Ewallet() {
   const [services, setServices] = useState([]);
 
   // get the linked payment method
-
-  
   useEffect(() => {
     if (user._id) {
       fetchPaymentMethod(user._id);

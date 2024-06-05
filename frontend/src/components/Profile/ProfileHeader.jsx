@@ -5,6 +5,7 @@ import EditProfileIcon from '../../assets/icons/profile/edit_fill.svg';
 import default_avatar from "../../assets/icons/profile/avatar-default-symbolic-svgrepo-com.svg";
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
+import AccessToInvoicePayment from '../payment/AccessToInvoicePayment';
 
 function ProfileHeader(props) {
   const { name, university, location, avatarSrc, headline, tags = [], userId, role } = props;
@@ -23,21 +24,20 @@ function ProfileHeader(props) {
   };
 
   return (
-    <Container style={{ margin: 'auto', width: '1000px' }}>
+    <><Container style={{ margin: 'auto', width: '1000px' }}>
       <Row className="justify-content-center">
         <Col xs={12} md={3} className="text-center">
           <Image
             src={avatarSrc ? `data:${avatarSrc};base64,${avatarSrc}` : default_avatar}
             roundedCircle
-            style={{ width: '180px', height: '180px' }}
-          />
+            style={{ width: '180px', height: '180px' }} />
         </Col>
         <Col xs={12} md={5}>
           <p style={{ marginTop: '10px', fontSize: '25px', fontWeight: 'bold' }}>
             {renderValue(name, 'Name')}
           </p>
-          <div style={{ display: 'flex', marginTop: '5px' }}>
-            <p style={{ color: '#858585', marginRight: '50px' }}>
+          <div style={{ display: 'flex', marginTop: '5px', gap: "25px" }}>
+            <p style={{ color: '#858585', marginRight: '' }}>
               {renderValue(location, 'Location')}
             </p>
             {role === 'recruiter' ? (
@@ -78,14 +78,15 @@ function ProfileHeader(props) {
                 <img
                   src={EditProfileIcon}
                   alt="edit profile"
-                  style={{ width: '30px', height: '30px', marginLeft: '20px', marginTop: '15px' }}
-                />
+                  style={{ width: '30px', height: '30px', marginLeft: '20px', marginTop: '15px' }} />
               </Link>
             )}
           </div>
         </Col>
       </Row>
     </Container>
+    <AccessToInvoicePayment/>
+    </>
   );
 }
 

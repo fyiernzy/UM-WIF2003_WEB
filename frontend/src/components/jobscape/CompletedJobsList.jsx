@@ -37,7 +37,9 @@ export default function CompletedJobsList({ userId }) {
               );
             })
           ) : (
-            <p>No projects completed.</p>
+            <div className="no-projects">
+              <p>No projects completed.</p>
+            </div>
           )}
         </div>
       </div>

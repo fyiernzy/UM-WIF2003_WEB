@@ -35,38 +35,7 @@ class PostController extends BaseController {
   }
 
   async postNewPost(req, res) {
-    console.log("Request Body:", req.body);
-    console.log("Request Files:", req.files);
-
-    const { error } = addPostSchema.validate(
-      {
-        ...req.body,
-        images: req.files.map((file) => ({
-          buffer: file.buffer,
-          originalname: file.originalname,
-          mimetype: file.mimetype,
-        })),
-      },
-      { abortEarly: false }
-    );
-
-    if (error) {
-      console.log(error);
-      const errorMessage = error.details
-        .map((detail) => detail.message)
-        .join(", ");
-      return res.status(400).json({ message: errorMessage });
-    }
-
-    const { title, content, userId } = req.body;
-    const images = req.files.map((file) => ({
-      buffer: file.buffer,
-      originalname: file.originalname,
-      mimetype: file.mimetype,
-    }));
-
-    console.log("Processed Images:", images);
-
+    console.log("In postNewPost, is images here?", req.files);
     await this.handleRequest(
       req,
       res,

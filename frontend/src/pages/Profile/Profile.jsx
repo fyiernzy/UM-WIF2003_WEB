@@ -89,7 +89,7 @@ function Profile() {
               <h6 className="text-center">JOB HISTORY</h6>
               <hr />
             </div>
-            <JobHistory userId={userId} />
+            <JobHistory userId={userId} role={profile.role}/>
           </Col>
         </Row>
       </Container>

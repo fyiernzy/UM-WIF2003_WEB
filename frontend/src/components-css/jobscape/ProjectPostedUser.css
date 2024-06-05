@@ -57,8 +57,8 @@
 }
 
 .details-button:hover {
-  background-color: #80d1d5;
-  border-color: #80d1d5;
+  background-color: #80d1d5 !important;
+  border-color: #80d1d5 !important;
 }
 
 .Biography {
@@ -97,11 +97,10 @@
   background-color: #80d1d5;
 }
 
-.RemoveBtn {
-  background-color: #f44336;
+.ActionButtons .RemoveBtn {
+  background-color: grey;
   color: white;
 }
-
-.RemoveBtn:hover {
+.ActionButtons .RemoveBtn:hover {
   background-color: #ff7f7f;
 }

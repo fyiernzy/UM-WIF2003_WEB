@@ -128,7 +128,7 @@ const PostProjectPage = () => {
     e.preventDefault();
 
     if (!validateFields()) {
-      return; 
+      return;
     }
 
     try {
@@ -144,7 +144,7 @@ const PostProjectPage = () => {
         contactInformation,
         additionalNotes,
         agreedToTerms,
-        postedBy: user?._id, 
+        postedBy: user?._id,
       };
 
       const response = await axios.post(
@@ -230,6 +230,7 @@ const PostProjectPage = () => {
               type="text"
               id="projectTitle"
               value={projectTitle}
+              maxLength="22"
               onChange={(e) => setProjectTitle(e.target.value)}
             />
             {validationMessages.projectTitle && (

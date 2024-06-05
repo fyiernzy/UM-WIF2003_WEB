@@ -7,8 +7,7 @@ const getDefaultFilter = function () {
 
 const projectSchema = mongoose.Schema(
   {
-    // postedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    postedBy: { type: String },
+    postedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
     companyLogo: { data: Buffer, contentType: String },
     companyName: { type: String },
     projectTitle: { type: String, required: true },
