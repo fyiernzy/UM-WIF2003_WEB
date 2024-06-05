@@ -61,7 +61,9 @@ export default function NotificationBell(props) {
         onMouseLeave={handleMouseLeave}
         onClick={toggleNotif}
       />
-      <span className="notif-count">{notifications.length}</span>
+
+      {notifications.length > 0 ? <i class="bi bi-circle-fill" /> : <></>}
+
       <NotificationMenu
         isOpen={isNotifOpen}
         notifs={notifications}

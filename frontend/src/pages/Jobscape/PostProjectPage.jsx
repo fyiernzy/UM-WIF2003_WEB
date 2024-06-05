@@ -264,7 +264,7 @@ const PostProjectPage = () => {
               <option value="Selangor">Selangor</option>
               <option value="Negeri Sembilan">Negeri Sembilan</option>
               <option value="Melaka">Melaka</option>
-              <option value="Johore">Johore</option>
+              <option value="Johore">Johor</option>
               <option value="Kelantan">Kelantan</option>
               <option value="Terengganu">Terengganu</option>
               <option value="Perak">Perak</option>
@@ -286,19 +286,17 @@ const PostProjectPage = () => {
             >
               <option value="">Select Project Category</option>
               <option value="Software Development">Software Development</option>
-              <option value="Mobile App Development">
-                Mobile App Development
-              </option>
+              <option value="Tutoring & Education">Tutoring & Education</option>
               <option value="Web Development">Web Development</option>
               <option value="Graphics Design">Graphics Design</option>
               <option value="Video Editing">Video Editing</option>
-              <option value="Translation Services">Translation Services</option>
-              <option value="Social Media Marketing">
-                Social Media Marketing
+              <option value="Social Media Management">
+                Social Media Management
               </option>
-              <option value="SEO Optimization">SEO Optimization</option>
+              <option value="Content Creation">Content Creation</option>
+              <option value="Photography">Photography</option>
               <option value="Customer Support">Customer Support</option>
-              <option value="Data Entry">Data Entry</option>
+              <option value="Research Assistance">Research Assistance</option>
               <option value="Others">Others</option>
             </select>
             {validationMessages.projectCategory && (
@@ -317,7 +315,6 @@ const PostProjectPage = () => {
               <option value="">Select duration</option>
               <option value="Short Term">Short Term</option>
               <option value="Long Term">Long Term</option>
-              <option value="OnGoing">OnGoing</option>
             </select>
             {validationMessages.projectDuration && (
               <span className="ErrorMessage">
