@@ -1,42 +1,85 @@
-import "../../pages-css/General/General.css";
 import React, { useState } from "react";
 import Notification from "../../pages/General/Notification";
 import google from "../../assets/images/General/logos_facebook.png";
 import facebook from "../../assets/images/General/flat-color-icons_google.png";
 import sideBackground from "../../assets/images/General/LOGIN.png";
-import { getUser } from "../../api/authApi";
+import { checkEmail } from "../../api/authApi"; // Import checkEmail function
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 function Login({ setLoggedIn, setUser }) {
   const { updateUser } = useUserContext();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState(""); // Change from username to email
   const [password, setPassword] = useState("");
   const [errorMessages, setErrorMessages] = useState({});
   const [userType, setUserType] = useState("recruiter");
   const [showNotification, setShowNotification] = useState(false);
   const navigate = useNavigate(); // Call the useNavigate hook here
 
+  const responseMessage = async (response) => {
+    try {
+      console.log("Google Login Response:", response);
+  
+      const credential = response.credential;
+      if (!credential) {
+        console.log("Credential not found in the response.");
+        return;
+      }
+  
+      const decodedToken = jwtDecode(credential);
+      console.log("Decoded Token:", decodedToken);
+  
+      const { email, name, picture } = decodedToken;
+      console.log("Email:", email);
+      console.log("Name:", name);
+      console.log("Picture:", picture);
+  
+      // Check if the user exists in the database
+      console.log("Calling checkEmail with email:", email);
+      const isValidEmail = await checkEmail(email); // Call checkEmail function
+      console.log("isValidEmail:", isValidEmail);
+  
+      if (isValidEmail) {
+        setShowNotification(true);
+        setTimeout(() => {
+          setShowNotification(false);
+          setLoggedIn(true);
+          navigate("/JobscapeMainPage");
+        }, 3000);
+      } else {
+        setErrorMessages({
+          name: "invalid",
+          message: "User with this Google account does not exist.",
+        });
+      }
+    } catch (error) {
+      console.log("Error decoding Google credential:", error);
+    }
+  };
+  
+  const errorMessage = (error) => {
+    console.log(error);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload
-    const user = await getUser(username, password);
-
-    if (user) {
-      setErrorMessages({});
-      updateUser(user);
-      setShowNotification(true);
-      setTimeout(() => {
-        setShowNotification(false);
-        setLoggedIn(true);
-        navigate("/JobscapeMainPage");
-      }, 3000);
-    } else {
+    
+    // Validate the email first
+    const isValidEmail = await checkEmail(email);
+    
+    if (!isValidEmail) {
       setErrorMessages({
         name: "invalid",
-        message: "Invalid username or password",
+        message: "Invalid email",
       });
-      updateUser(null);
+      return;
     }
+  
+    // If the email is valid, proceed with login
+    console.log("Submitting form...");
+    // Proceed with login logic
   };
 
   // Generate JSX code for error message
@@ -60,8 +103,8 @@ function Login({ setLoggedIn, setUser }) {
             placeholder="Email"
             type="email"
             name="email"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
           {renderErrorMessage("invalid")}
@@ -84,8 +127,7 @@ function Login({ setLoggedIn, setUser }) {
             Remember me on this computer
           </label>
         </div>
-        {showNotification && <Notification message="Login Successfully!" />}{" "}
-        {/* Conditionally render the notification */}
+        {showNotification && <Notification message="Login Successfully!" />}
         <div className="login-button-container">
           <input type="submit" value="Login" />
         </div>
@@ -103,10 +145,7 @@ function Login({ setLoggedIn, setUser }) {
           <hr className="login-hr-right" />
         </div>
         <div className="login-button-group">
-          <button className="login-facebook-button">
-            <img src={google} alt="Google Logo" />
-            Google
-          </button>
+        <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
           <button className="login-facebook-button">
             <img src={facebook} alt="Facebook Logo" />
             Facebook

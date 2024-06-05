@@ -61,6 +61,24 @@ mongoose
     console.log(error);
   });
 
+  app.get('/google-user-info', async (req, res) => {
+    const { accessToken } = req.query;
+    try {
+      const { data } = await axios.get(
+        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Accept: 'application/json',
+          },
+        }
+      );
+      res.json(data);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching user data from Google' });
+    }
+  });
+
 // Start the server
 app.listen(PORT || 5050, () => {
   console.log(`Server is listening on port ${PORT}`);

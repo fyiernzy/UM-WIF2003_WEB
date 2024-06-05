@@ -75,6 +75,80 @@ export const login = async (req, res) => {
   }
 };
 
+export const googleRegister = async (req, res) => {
+  try {
+    const { email, username, profilePic, userType } = req.body;
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return handleBadRequest(res, "User already exists");
+    }
+
+    const user = await User.create({
+      email,
+      username,
+      role: userType,
+      profilePic: { data: profilePic, contentType: 'image/png' }
+    });
+
+    const token = createSecretToken(user._id);
+    setTokenCookie(res, token);
+
+    return res.status(StatusCodes.CREATED).json({
+      message: "User registered successfully",
+      success: true,
+      user
+    });
+  } catch (error) {
+    return handleInternalServerError(res, error);
+  }
+};
+
+export const googleLogin = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return handleBadRequest(res, "User not registered");
+    }
+
+    const token = createSecretToken(user._id);
+    setTokenCookie(res, token);
+
+    return res.status(StatusCodes.OK).json({
+      message: "User logged in successfully",
+      success: true,
+      user: user,
+    });
+  } catch (error) {
+    return handleInternalServerError(res, error);
+  }
+};
+
+export const checkEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        message: "User not found",
+        user: null,
+      });
+    }
+
+    return res.status(StatusCodes.OK).json({
+      message: "User found",
+      user,
+    });
+  } catch (error) {
+    console.error("Error checking email: ", error);
+    return handleInternalServerError(res, error);
+  }
+};
+
+
 export const logout = async (req, res) => {
   res.clearCookie("token");
   res.json({ status: true, message: "Logged out successfully" });

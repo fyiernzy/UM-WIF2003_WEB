@@ -12,11 +12,14 @@ import {
 } from "../helpers/errorHelpers.js";
 import User from "../models/userModel.js";
 import { StatusCodes } from "http-status-codes";
+import { signUp, login, logout, googleRegister, googleLogin } from '../controllers/authController.js';
 
 const router = express.Router();
 
 router.post("/signup", validateSignUp, asyncHandler(signUp));
 router.post("/login", validateLogin, asyncHandler(login));
+router.post('/google-register', googleRegister);
+router.post('/google-login', googleLogin);
 router.get("/debug", async (req, res) => {
   try {
     const allUsers = await User.find();
