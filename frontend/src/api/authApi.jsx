@@ -22,27 +22,44 @@ export const postRegistration = async (
   }
 };
 
-export const getUser = async (email) => {
+// export const getUser = async (email) => {
+//   try {
+//     console.log("getUser - email:", email); // Debug statement
+//     const res = await axios.post(
+//       "http://localhost:5050/auth/login",
+//       {
+//         email,
+//       },
+//       { withCredentials: true }
+//     );
+//     console.log("getUser - response:", res); // Debug statement
+//     console.log("getUser - user:", res.data.user); // Debug statement
+//     console.log("getUser - headers:", res.headers); // Debug statement
+//     console.log("getUser - cookies:", document.cookie); // Debug statement
+//     if (!res.data.user) return console.error("User not found");
+//     return res.data.user;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+export const getUser = async (email, password) => {
   try {
-    console.log("getUser - email:", email); // Debug statement
     const res = await axios.post(
       "http://localhost:5050/auth/login",
       {
         email,
+        password,
       },
       { withCredentials: true }
     );
-    console.log("getUser - response:", res); // Debug statement
-    console.log("getUser - user:", res.data.user); // Debug statement
-    console.log("getUser - headers:", res.headers); // Debug statement
-    console.log("getUser - cookies:", document.cookie); // Debug statement
+    console.log(res.headers);
+    console.log(document.cookie);
     if (!res.data.user) return console.error("User not found");
     return res.data.user;
   } catch (error) {
     console.error(error);
   }
 };
-
 export const checkEmail = async () => {
   try {
     const response = await fetch('http://localhost:5050/api/checkEmail', {
