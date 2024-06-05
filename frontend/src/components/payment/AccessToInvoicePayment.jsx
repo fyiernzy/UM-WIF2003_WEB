@@ -15,7 +15,7 @@ const AccessToInvoicePayment = () => {
       };
 
   return (
-    <div className='payment-btn-container-in-profile'>
+    <div className='payment-btn-container-in-profile gap-3'>
     <button className='view-invoice-btn-in-profile' onClick={handleInvoice}>View Invoice</button>
     <button className='view-payment-history-btn-in-profile'  onClick={handlePaymentHistory}>Payment History</button>
   </div>

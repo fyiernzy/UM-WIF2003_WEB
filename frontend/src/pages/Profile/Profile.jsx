@@ -8,6 +8,7 @@ import Product from "../../components/Profile/Product";
 import JobHistory from "../../components/Profile/JobHistory";
 import "../../pages-css/Profile/Profile.css";
 import { useParams } from "react-router-dom";
+import JobHistoryRecruiter from "../../components/Profile/JobHistoryRecruiter";
 
 function Profile() {
   const { userId } = useParams();
@@ -89,7 +90,12 @@ function Profile() {
               <h6 className="text-center">JOB HISTORY</h6>
               <hr />
             </div>
-            <JobHistory userId={userId} role={profile.role}/>
+            {isRecruiter ? (
+              <JobHistoryRecruiter userId={userId}/>
+            ) : (
+              <JobHistory userId={userId} role={profile.role}/>
+            )}
+            
           </Col>
         </Row>
       </Container>
