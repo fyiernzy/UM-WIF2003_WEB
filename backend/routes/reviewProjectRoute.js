@@ -43,6 +43,26 @@ router.get("/:status", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+router.put('/move-to-in-progress/:projectId', async (req, res) => {
+  try {
+    const { projectId } = req.params;
+
+    // Update the project status to in-progress
+    const updatedProject = await Project.findByIdAndUpdate(
+      projectId,
+      { status: 'in-progress' },
+      { new: true }
+    ).populate('serviceProvider'); // Make sure to populate the serviceProvider
+
+    if (!updatedProject) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    res.json(updatedProject);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
 
 // Route to fetch applicants for a specific project
 router.get("/posted/:projectId/applicants", async (req, res) => {
