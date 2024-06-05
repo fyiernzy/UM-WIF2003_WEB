@@ -14,7 +14,6 @@ function Fpx() {
 
   const [projectTitle, setProjectTitle] = useState('');
   const [projectBudget, setProjectBudget] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('');
 
   useEffect(() => {
     const title = localStorage.getItem('projectTitle');
