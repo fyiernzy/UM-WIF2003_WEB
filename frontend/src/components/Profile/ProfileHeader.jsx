@@ -85,7 +85,7 @@ function ProfileHeader(props) {
         </Col>
       </Row>
     </Container>
-    <AccessToInvoicePayment/>
+    {role === 'recruiter' && <AccessToInvoicePayment />}
     </>
   );
 }
