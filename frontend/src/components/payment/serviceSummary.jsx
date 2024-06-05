@@ -54,7 +54,7 @@ const ServiceSummary = ({ taskData }) => {
       
       <hr className="lineRightBox"></hr>
       {/* <Discount onSelectCard={handleSelectCard}/> */}
-      <hr className="lineRightBox"></hr>
+     
       
       <div>
         <div>

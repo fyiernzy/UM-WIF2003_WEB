@@ -259,7 +259,7 @@ const Card = () => {
 
       {/* <Discount onSelectCard={handleSelectCard}/> */}
 
-      <hr className="lineRightBox"></hr>
+    
       
       <div>
         <div>
