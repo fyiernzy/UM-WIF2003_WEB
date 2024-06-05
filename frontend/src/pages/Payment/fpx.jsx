@@ -68,11 +68,13 @@ function Fpx() {
       setModalIsOpen(true);
   };
 
-  const [selectedCard, setSelectedCard] = useState(null);
+  // const [selectedCard, setSelectedCard] = useState(null);
 
-  const handleSelectCard = (card) => {
-    setSelectedCard(card);
-  };
+  // const handleSelectCard = (card) => {
+  //   setSelectedCard(card);
+  // };
+  
+  
   
   return (
     <>
@@ -122,7 +124,7 @@ function Fpx() {
       </div>
       
       <hr className="lineRightBox"></hr>
-      <Discount onSelectCard={handleSelectCard}/>
+      {/* <Discount onSelectCard={handleSelectCard}/> */}
       <hr className="lineRightBox"></hr>
       
       <div>
@@ -143,11 +145,7 @@ function Fpx() {
       <div>
         <p className="descContent">
           <span className="taskName">Total</span>
-          <span className="taskPrice" style={{ fontWeight: 'bold', fontSize: '20px' }}>
-  RM {selectedCard && selectedCard.id === 1 ? (10 + parseFloat(projectBudget) - 20) : selectedCard && selectedCard.id === 2 ? (10 + parseFloat(projectBudget) - 10) : selectedCard && selectedCard.id === 3 ? (10 + parseFloat(projectBudget)) : (10 + parseFloat(projectBudget))}
-</span>
-
-
+          <span className="taskPrice" style={{ fontWeight: 'bold', fontSize: '20px' }}> RM {(10 + parseFloat(projectBudget))}</span>
         </p>
       </div>
     </div>

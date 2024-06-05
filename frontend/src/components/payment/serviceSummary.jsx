@@ -2,7 +2,6 @@ import "../../pages-css/Payment/Payment.css";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import TaxModal from "./TaxModal";
-import Discount from "./Discount";
 
 const ServiceSummary = ({ taskData }) => {
   const [projectTitle, setProjectTitle] = useState('');
@@ -26,11 +25,13 @@ const ServiceSummary = ({ taskData }) => {
       setModalIsOpen(true);
   };
 
-  const [selectedCard, setSelectedCard] = useState(null);
+  // const [selectedCard, setSelectedCard] = useState(null);
 
-  const handleSelectCard = (card) => {
-    setSelectedCard(card);
-  };
+  // const handleSelectCard = (card) => {
+  //   setSelectedCard(card);
+  // };
+
+  
 
   return (
     <div className="RightContainer">
@@ -52,7 +53,7 @@ const ServiceSummary = ({ taskData }) => {
       </div>
       
       <hr className="lineRightBox"></hr>
-      <Discount onSelectCard={handleSelectCard}/>
+      {/* <Discount onSelectCard={handleSelectCard}/> */}
       <hr className="lineRightBox"></hr>
       
       <div>
@@ -74,7 +75,7 @@ const ServiceSummary = ({ taskData }) => {
         <p className="descContent">
           <span className="taskName">Total</span>
           <span className="taskPrice" style={{ fontWeight: 'bold', fontSize: '20px' }}>
-  RM {selectedCard && selectedCard.id === 1 ? (10 + parseFloat(projectBudget) - 20) : selectedCard && selectedCard.id === 2 ? (10 + parseFloat(projectBudget) - 10) : selectedCard && selectedCard.id === 3 ? (10 + parseFloat(projectBudget)) : (10 + parseFloat(projectBudget))}
+  RM {(10 + parseFloat(projectBudget))}
 </span>
         </p>
       </div>
