@@ -62,7 +62,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/users", (req, res) => {});
+app.post("/users", (req, res) => { });
 
 mongoose
   .connect(mongoDBURL)
@@ -76,6 +76,24 @@ mongoose
 // Create socket io server
 const httpServer = createServer(app);
 socketConnection(httpServer);
+
+app.get('/google-user-info', async (req, res) => {
+  const { accessToken } = req.query;
+  try {
+    const { data } = await axios.get(
+      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Accept: 'application/json',
+        },
+      }
+    );
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching user data from Google' });
+  }
+});
 
 // Start the server
 httpServer.listen(PORT || 5050, () => {

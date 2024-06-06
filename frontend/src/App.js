@@ -42,6 +42,7 @@ import NavBar from "./components/navbar/NavBar";
 import "./App.css";
 import { UserProvider } from "./context/UserContext";
 import SinglePostPage from "./pages/Community/SinglePostPage";
+import { GoogleLogin } from '@react-oauth/google';
 
 function ScrollToTopOnNavigation() {
   const { pathname } = useLocation();
@@ -56,6 +57,12 @@ function ScrollToTopOnNavigation() {
 function App() {
   // These states are passed into Login
   // They will be set after login is valid
+  const responseMessage = (response) => {
+    console.log(response);
+  };
+  const errorMessage = (error) => {
+    console.log(error);
+  };
   const [loggedIn, setLoggedIn] = useState(false);
 
   return (
