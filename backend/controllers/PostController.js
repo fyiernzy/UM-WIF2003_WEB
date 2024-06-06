@@ -35,7 +35,6 @@ class PostController extends BaseController {
   }
 
   async postNewPost(req, res) {
-    console.log("In postNewPost, is images here?", req.files);
     await this.handleRequest(
       req,
       res,

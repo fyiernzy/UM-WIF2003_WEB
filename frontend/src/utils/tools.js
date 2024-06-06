@@ -7,6 +7,6 @@ export const getAvatar = (user) => {
     throw new Error("NullUserError: user in getAvatar cannot be null.");
   }
   return user.profilePic
-    ? `data:${user.profilePicContentType};base64,${user.profilePic}`
+    ? `data:${user.profilePic};base64,${user.profilePic}`
     : getRandomAvatar(user.username);
 };

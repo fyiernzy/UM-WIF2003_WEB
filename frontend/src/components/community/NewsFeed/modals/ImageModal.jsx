@@ -1,7 +1,7 @@
-// ImageModal.jsx
-import React from "react";
+import React, { useContext } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePostContext } from "../../../../context/PostContext";
 
 const ImageModal = ({
   show,
@@ -10,6 +10,11 @@ const ImageModal = ({
   onClose,
   setCurrentIndex,
 }) => {
+  const { post } = usePostContext();
+  const { author, title, content, createdAt, likes, comments } = post;
+  const { length: numberOfLikes } = likes;
+  const { length: numberOfComments } = comments;
+
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex > 0 ? prevIndex - 1 : images.length - 1
@@ -54,7 +59,7 @@ const ImageModal = ({
               exit="exit"
               variants={variants}
               transition={{ duration: 0.3 }}
-              className="tw-w-full tw-h-full tw-object-cover"
+              className="tw-w-[300px] tw-h-[400px] tw-object-cover"
             />
           </AnimatePresence>
           <Button
@@ -71,17 +76,36 @@ const ImageModal = ({
           </Button>
         </div>
         <div className="tw-w-1/2 tw-pl-4">
-          <h4>Image Title</h4>
-          <p>Image description or content goes here.</p>
-          <div>
-            <h5>Comments</h5>
-            <div className="tw-border tw-border-gray-200 tw-rounded tw-p-2 tw-mb-2">
-              Great work!
+          <div className="tw-flex tw-items-center tw-gap-2">
+            <h4 className="tw-font-bold tw-text-lg">{author.username}</h4>
+            <p className="tw-text-sm tw-text-gray-500">
+              {new Date(createdAt).toLocaleString()}
+            </p>
+          </div>
+
+          <h2 className="tw-text-lg tw-font-bold">{title}</h2>
+          <p className="tw-mt-2">{content}</p>
+          <div className="tw-flex tw-flex-col">
+            <div className="tw-flex tw-gap-3 tw-mt-4">
+              <span>Comments: {numberOfComments}</span>
+              <span>Likes: {numberOfLikes}</span>
             </div>
-            <div className="tw-border tw-border-gray-200 tw-rounded tw-p-2 tw-mb-2">
-              Nice image!
+
+            <hr className="tw-border-2 tw-border-slate-500 tw-my-5"></hr>
+            <div>
+              {comments.length > 0 ? (
+                comments.map((comment, index) => (
+                  <div
+                    key={index}
+                    className="tw-border tw-border-gray-200 tw-rounded tw-p-2 tw-mb-2"
+                  >
+                    {comment}
+                  </div>
+                ))
+              ) : (
+                <p>No comments yet</p>
+              )}
             </div>
-            {/* Add more comments here */}
           </div>
         </div>
       </Modal.Body>
