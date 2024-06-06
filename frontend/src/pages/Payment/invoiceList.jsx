@@ -62,8 +62,6 @@ function InvoiceList() {
         invoiceContent.forEach(async (invoiceContent, index) => {
           const doc = new jsPDF();
 
-          
-
           doc.setFontSize(24);
           doc.setFont('helvetica', 'bold');
           const titleText = 'Invoice';
@@ -82,7 +80,7 @@ function InvoiceList() {
           doc.text(`Project Title: ${invoiceContent.projectTitle || ''}`, 20, currentY);
           currentY += 10;
   
-          doc.text(`Project Budget: RM${invoiceContent.projectBudget || ''}`, 20, currentY);
+          doc.text(`Project Budget: RM${invoiceContent.projectBudget + 10 || ''}`, 20, currentY);
           currentY += 10;
   
           doc.text(`Project Description: ${invoiceContent.projectDescription || ''}`, 20, currentY);
@@ -115,7 +113,8 @@ function InvoiceList() {
       console.error('Error generating PDF:', error);
     }
   };
-    
+
+  
   const handleInvClick = () => {
         handleDownload(invoiceContent);
       };
