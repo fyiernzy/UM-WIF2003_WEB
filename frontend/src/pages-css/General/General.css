@@ -55,7 +55,6 @@
   background-color: transparent;
 }
 
-
 .login-button-container input[type="submit"] {
   width: 90%;
   padding: 10px;
@@ -179,7 +178,10 @@
   margin-left: 20px;
   margin-top: 10px;
 }
-
+.error {
+  color: red;
+  margin-bottom: 20px;
+}
 .login-checkbox-container input[type="checkbox"] {
   margin-right: 10px;
   width: 17px; /* Adjust width */
@@ -456,7 +458,6 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
-
 
 .login-grid-item p {
   background-color: #ffffff; /* Background color for grid items */

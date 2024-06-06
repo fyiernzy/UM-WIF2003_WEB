@@ -79,45 +79,4 @@ router.post("/upload-works", upload.array("files"), uploadCompletedWorks);
 // GET /projects/:projectId - Retrieves project details of projectId
 router.get("/:projectId", getProjectDetails);
 
-// router.post("/get-applicants", async (req, res) => {
-//   try {
-//     const project = await Project.findById("6651b3b082ee377a3e8d6a91").populate(
-//       "applicants"
-//     );
-//     return res.status(200).json(project);
-//   } catch (error) {
-//     return res.status(500).json({ error: error.message });
-//   }
-// });
-// ---------------------------------------------------------------
-// These endpoints are for testing purposes, they use FakeUser
-router.post("/user", async (req, res) => {
-  try {
-    const newUser = {
-      userId: req.body.userId,
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-      favoriteProjects: [],
-      takenProjects: [],
-      completedProjects: [],
-    };
-    const user = await User.create(newUser).then((user) => {
-      console.log("New User created: ", user);
-    });
-    return res.status(201).send(user);
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-});
-
-router.get("/user/:userId", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.userId);
-    return res.status(200).json(user);
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-});
-
 export default router;

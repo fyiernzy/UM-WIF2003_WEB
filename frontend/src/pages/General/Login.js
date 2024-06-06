@@ -78,7 +78,7 @@ function Login({ setLoggedIn, setUser }) {
           />
           {renderErrorMessage("invalid")}
         </div>
-        <div className="login-radio-container">
+        {/* <div className="login-radio-container">
           <input
             type="radio"
             id="recruiter"
@@ -97,7 +97,7 @@ function Login({ setLoggedIn, setUser }) {
             onChange={() => setUserType("freelance")}
           />
           <label htmlFor="freelance">Freelancer</label>
-        </div>
+        </div> */}
         <div className="login-checkbox-container">
           <input type="checkbox" id="rememberMe" name="rememberMe" />
           <label htmlFor="rememberMe" className="remember-label">
