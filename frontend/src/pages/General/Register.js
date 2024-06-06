@@ -80,28 +80,22 @@ function Register() {
       <img alt="Side background decoration" className="login-flower-pic" src={sideBackground} />
       <form onSubmit={handleSubmit} className="login-form2-container">
         <h2 className="login-title">Create Account</h2>
-        <div className="login-options">
-          <hr className="login-hr-left" />
-          <p className="login-normal-text">Signup with</p>
-          <hr className="login-hr-right" />
-        </div>
-        <div className="login-button-group">
-          <button className="login-facebook-button">
-            <img src={facebookIcon} alt="Facebook Logo" />
-            Facebook
-          </button>
-          <div className="login-google-button">
-            <GoogleLogin
-              onSuccess={responseMessage}
-              onError={errorMessage}
-              render={(renderProps) => (
-                <button onClick={renderProps.onClick} disabled={renderProps.disabled} className="login-facebook-button">
-                  <img src={googleIcon} alt="Google Logo" />
-                  Google
-                </button>
-              )}
-            />
-          </div>
+        
+        <div className="login-google-button-container2">
+          <GoogleLogin
+            onSuccess={responseMessage}
+            onError={errorMessage}
+            render={(renderProps) => (
+              <button
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+                className="login-google-button"
+              >
+                <img src={googleIcon} alt="Google Logo" />
+                Google
+              </button>
+            )}
+          />
         </div>
         <div className="login-options">
           <hr className="login-hr-left" />

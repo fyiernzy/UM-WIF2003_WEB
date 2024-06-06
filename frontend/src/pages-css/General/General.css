@@ -61,6 +61,7 @@
   padding: 10px;
   margin-left: 20px;
   margin-right: 20px;
+  margin-top: 15px;
   border: none;
   border-radius: 10px;
   background-color: #80d1d6; /* Button background color */
@@ -113,6 +114,7 @@
   font-size: 26px;
   text-align: center;
   margin-top: 15px;
+  margin-bottom: 20px;
 }
 
 .login-title4 {
@@ -187,7 +189,7 @@
   align-items: center;
   margin-bottom: 20px;
   margin-left: 20px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .login-checkbox-container input[type="checkbox"] {
@@ -458,11 +460,14 @@
   color: black;
   padding: 15px 20px;
   border-radius: 25px;
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
-  transition: opacity 0.5s;
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center horizontally */
+  transition: opacity 0.5s ease-in-out;
   opacity: 0;
   width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .login-notification.show {
@@ -470,11 +475,19 @@
 }
 
 .login-notification-logo {
-  margin-left: 80px;
-  margin-right: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-right: 15px;
 }
+
+.login-notification-message {
+  margin: 0;
+  font-size: 23px;
+  text-align: center;
+  font-family: "Lato", sans-serif;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 
 
 .login-grid-item p {
@@ -589,4 +602,32 @@
 
 .login-text {
   color: white;
+}
+
+.login-google-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.login-google-button-container2 {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.login-google-button {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: "Lato", sans-serif; /* Apply Lato font */
+  font-size: 16px; /* Adjust font size as needed */
+  color: #000000; /* Set font color */
+  width: 150px;
+  height: 40px;
+  background-color: white; /* Set background color */
+  border-radius: 12px; /* Apply border radius */
+  padding: 7px 25px; /* Apply padding */
 }

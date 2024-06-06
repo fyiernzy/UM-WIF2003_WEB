@@ -22,26 +22,6 @@ export const postRegistration = async (
   }
 };
 
-// export const getUser = async (email) => {
-//   try {
-//     console.log("getUser - email:", email); // Debug statement
-//     const res = await axios.post(
-//       "http://localhost:5050/auth/login",
-//       {
-//         email,
-//       },
-//       { withCredentials: true }
-//     );
-//     console.log("getUser - response:", res); // Debug statement
-//     console.log("getUser - user:", res.data.user); // Debug statement
-//     console.log("getUser - headers:", res.headers); // Debug statement
-//     console.log("getUser - cookies:", document.cookie); // Debug statement
-//     if (!res.data.user) return console.error("User not found");
-//     return res.data.user;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
 export const getUser = async (email, password) => {
   try {
     const res = await axios.post(
@@ -60,33 +40,22 @@ export const getUser = async (email, password) => {
     console.error(error);
   }
 };
-export const checkEmail = async () => {
+export const checkEmail = async (email) => {
   try {
-    const response = await fetch('http://localhost:5050/api/checkEmail', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({}),
-    });
-
-    const data = await response.json();
-
-    console.log("Existing emails in the database:", data.emails); // Debug statement
-
-    if (response.ok) {
-      return data.exists;
-    } else {
-      throw new Error(data.message || 'Failed to check email');
-    }
+    const res = await axios.post(
+      "http://localhost:5050/auth/checkEmail",
+      { email },
+      { withCredentials: true }
+    );
+    console.log("checkEmail - response headers:", res.headers);
+    console.log("checkEmail - cookies:", document.cookie);
+    
+    if (!res.data.exists) return console.error("Email not found");
+    return res.data.exists;
   } catch (error) {
-    console.error('Error checking email:', error);
-    throw error;
+    console.error("Error checking email:", error);
   }
 };
-
-
-
 
 export const verifyUserToken = async () => {
   try {
@@ -111,3 +80,21 @@ export const logoutUser = async () => {
     return { status: false };
   }
 };
+
+export const forgotPassword = async (email) => {
+  console.log("in forgot password");
+  try {
+    console.log("in forgot password2");
+    const res = await axios.post(
+      "http://localhost:5050/auth/forgotpassword",
+      { email },
+      { withCredentials: true }
+    );
+    console.log("in forgot password3");
+    return res.data;
+  } catch (error) {
+    console.error("Error in forgot password:", error);
+    throw error;
+  }
+};
+

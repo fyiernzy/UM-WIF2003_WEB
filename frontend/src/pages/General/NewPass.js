@@ -1,40 +1,65 @@
 import "../../pages-css/General/General.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Notification from "../../pages/General/Notification";
 import sideBackground from "../../assets/images/General/LOGIN.png";
+import axios from 'axios';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import GoogleLoginModal from './GoogleLoginModal';
 
-function EnterCode() {
+function NewPass() {
   const [password, setPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessages, setErrorMessages] = useState({});
   const [showNotification, setShowNotification] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(true); // Open modal by default
+  const navigate = useNavigate();
+  const location = useLocation();
+  const email = location.state?.email;
 
-  const handleClick = () => {
-    setShowNotification(true); // Show the notification when the button is clicked
-    setTimeout(() => {
-      setShowNotification(false); // Hide the notification after a delay
-      window.location.href = "/Login"; // Redirect after hiding the notification
-    }, 3000); // Adjust the timeout duration as needed
-  };
+  useEffect(() => {
+    if (email) {
+      console.log("Email passed to NewPass component:", email);
+    } else {
+      console.log("No email passed to NewPass component");
+    }
+  }, [email]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent page reload
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    // Validate input fields (replace with your own logic)
-    if (!password || !newPassword) {
+    if (!password || !confirmPassword) {
       setErrorMessages({
         name: "password",
-        message: "Please enter both password and new password",
       });
+      toast.error("Please enter both password and confirm password", { autoClose: 3000 });
+    } else if (password !== confirmPassword) {
+      setErrorMessages({
+        name: "password",
+      });
+      toast.error("Passwords do not match", { autoClose: 3000 });
     } else {
-      // Proceed with verification logic
-      console.log("Password:", password);
-      console.log("New Password:", newPassword);
-      // Redirect to NewPass page or perform any other action
+      console.log(password, " and", confirmPassword);
+      try {
+        const res = await axios.post("http://localhost:5050/auth/reset-password", { email, password });
+
+        if (res.data.success) {
+          setShowNotification(true);
+          setTimeout(() => {
+            setShowNotification(false);
+            navigate("/login");
+          }, 3000);
+        } else {
+          toast.error("Failed to reset password.", { autoClose: 3000 });
+        }
+      } catch (error) {
+        console.error("Error during password reset:", error);
+        toast.error("An error occurred. Please try again.", { autoClose: 3000 });
+      }
     }
   };
 
-  // Generate JSX code for error message
   const renderErrorMessage = (name) =>
     name === errorMessages.name && (
       <div className="error">{errorMessages.message}</div>
@@ -42,18 +67,18 @@ function EnterCode() {
 
   return (
     <div className="login-background">
-      <img className="login-flower-pic" src={sideBackground}></img>
+      <ToastContainer />
+      <img className="login-flower-pic" src={sideBackground} alt="Side background" />
       <form onSubmit={handleSubmit} className="login-forgot-container">
         <h2 className="login-title">Reset Password</h2>
         <p className="login-transparent-text">
-          Set the new password for your account so you can login and access all
-          features.
+          Set the new password for your account so you can login and access all features.
         </p>
         <div className="login-input-container">
           <input
             className="login-usernameInput"
             type="password"
-            placeholder="Password"
+            placeholder="New Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -63,23 +88,26 @@ function EnterCode() {
           <input
             className="login-usernameInput"
             type="password"
-            placeholder="New Password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+            placeholder="Confirm New Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </div>
         {renderErrorMessage("password")}
         {showNotification && (
           <Notification message="Password Reset Successfully!" />
-        )}{" "}
-        {/* Conditionally render the notification */}
+        )}
         <div className="login-button-container2">
-          <input type="submit" value="Reset Password" onClick={handleClick} />
+          <input type="submit" value="Reset Password" />
         </div>
       </form>
+      <GoogleLoginModal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+      />
     </div>
   );
 }
 
-export default EnterCode;
+export default NewPass;

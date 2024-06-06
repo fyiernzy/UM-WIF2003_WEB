@@ -1,45 +1,106 @@
 import "../../pages-css/General/General.css";
 import React, { useState } from "react";
 import Notification from "../../pages/General/Notification";
-import google from "../../assets/images/General/logos_facebook.png";
-import facebook from "../../assets/images/General/flat-color-icons_google.png";
+import googleIcon from "../../assets/images/General/flat-color-icons_google.png";
 import sideBackground from "../../assets/images/General/LOGIN.png";
 import { getUser } from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
+import { GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode'; // Fixing the import statement
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root'); // Required for screen readers
 
 function Login({ setLoggedIn, setUser }) {
   const { updateUser } = useUserContext();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessages, setErrorMessages] = useState({});
-  const [userType, setUserType] = useState("recruiter");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
-  const navigate = useNavigate(); // Call the useNavigate hook here
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationType, setNotificationType] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent page reload
-    const user = await getUser(username, password);
+    e.preventDefault();
+    try {
+      const user = await getUser(email, password);
 
-    if (user) {
-      setErrorMessages({});
-      updateUser(user);
-      setShowNotification(true);
-      setTimeout(() => {
-        setShowNotification(false);
-        setLoggedIn(true);
-        navigate("/JobscapeMainPage");
-      }, 3000);
-    } else {
-      setErrorMessages({
-        name: "invalid",
-        message: "Invalid username or password",
-      });
-      updateUser(null);
+      if (user) {
+        setErrorMessages({});
+        updateUser(user);
+        setNotificationMessage("Login Successfully!");
+        setNotificationType("success");
+        setShowNotification(true);
+        setTimeout(() => {
+          setShowNotification(false);
+          setLoggedIn(true);
+          navigate("/JobscapeMainPage");
+        }, 3000);
+      } else {
+        setErrorMessages({
+          name: "invalid",
+        });
+        updateUser(null);
+        toast.error("Invalid username or password", { autoClose: 3000 });
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      toast.error("An error occurred during login. Please try again.", { autoClose: 3000 });
     }
   };
 
-  // Generate JSX code for error message
+  const responseMessage = async (response) => {
+    try {
+      console.log("Google Login Response:", response);
+
+      const credential = response.credential;
+      if (!credential) {
+        console.log("Credential not found in the response.");
+        return;
+      }
+
+      const decodedToken = jwtDecode(credential);
+      console.log("Decoded Token:", decodedToken);
+
+      const { email } = decodedToken;
+      console.log("Email:", email);
+
+      const res = await axios.post("http://localhost:5050/auth/google-login", { email }, { withCredentials: true });
+
+      if (res.data.success) {
+        updateUser(res.data.user);
+        setNotificationMessage("Login Successfully!");
+        setNotificationType("success");
+        setShowNotification(true);
+        setTimeout(() => {
+          setShowNotification(false);
+          setLoggedIn(true);
+          navigate("/JobscapeMainPage");
+        }, 3000);
+      } else {
+        setErrorMessages({
+          name: "invalid",
+        });
+        updateUser(null);
+        toast.error("User not registered. Please register first.", { autoClose: 3000 });
+      }
+    } catch (error) {
+      console.log("Error during Google login:", error);
+      toast.error("An error occurred during Google login. Please try again.", { autoClose: 3000 });
+    }
+  };
+
+  const errorMessage = (error) => {
+    console.log("Google login error:", error);
+    toast.error("An error occurred during Google login. Please try again.", { autoClose: 3000 });
+  };
+
   const renderErrorMessage = (name) =>
     name === errorMessages.name && (
       <div className="error">{errorMessages.message}</div>
@@ -47,6 +108,7 @@ function Login({ setLoggedIn, setUser }) {
 
   return (
     <div className="login-background">
+      <ToastContainer />
       <img
         alt="Side background decoration"
         className="login-flower-pic"
@@ -60,8 +122,8 @@ function Login({ setLoggedIn, setUser }) {
             placeholder="Email"
             type="email"
             name="email"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
           {renderErrorMessage("invalid")}
@@ -78,34 +140,14 @@ function Login({ setLoggedIn, setUser }) {
           />
           {renderErrorMessage("invalid")}
         </div>
-        <div className="login-radio-container">
-          <input
-            type="radio"
-            id="recruiter"
-            name="userType"
-            value="recruiter"
-            checked={userType === "recruiter"}
-            onChange={() => setUserType("recruiter")}
-          />
-          <label htmlFor="recruiter">Recruiter</label>
-          <input
-            type="radio"
-            id="freelance"
-            name="userType"
-            value="freelance"
-            checked={userType === "freelance"}
-            onChange={() => setUserType("freelance")}
-          />
-          <label htmlFor="freelance">Freelancer</label>
-        </div>
+        
         <div className="login-checkbox-container">
           <input type="checkbox" id="rememberMe" name="rememberMe" />
           <label htmlFor="rememberMe" className="remember-label">
             Remember me on this computer
           </label>
         </div>
-        {showNotification && <Notification message="Login Successfully!" />}{" "}
-        {/* Conditionally render the notification */}
+        {showNotification && <Notification message={notificationMessage} type={notificationType} />}
         <div className="login-button-container">
           <input type="submit" value="Login" />
         </div>
@@ -119,26 +161,63 @@ function Login({ setLoggedIn, setUser }) {
         </div>
         <div className="login-options">
           <hr className="login-hr-left" />
-          <p className="login-normal-text">Or login with</p>
+          <p className="login-normal-text">Or</p>
           <hr className="login-hr-right" />
         </div>
-        <div className="login-button-group">
-          <button className="login-facebook-button">
-            <img src={google} alt="Google Logo" />
-            Google
-          </button>
-          <button className="login-facebook-button">
-            <img src={facebook} alt="Facebook Logo" />
-            Facebook
-          </button>
+        <div className="login-google-button-container">
+          <GoogleLogin
+            onSuccess={responseMessage}
+            onError={errorMessage}
+            render={(renderProps) => (
+              <button
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+                className="login-google-button"
+              >
+                <img src={googleIcon} alt="Google Logo" />
+                Google
+              </button>
+            )}
+          />
         </div>
+
         <div className="login-normal-text">
           Not a member?{" "}
-          <span onClick={() => navigate("/Register")} className="login-sign-up">
-            Sign up now
+          <span onClick={() => navigate("/register")} className="login-sign-up">
+            Register here
           </span>
         </div>
+        
       </form>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        contentLabel="Forgot Password Modal"
+        className="modal"
+        overlayClassName="modal-overlay"
+      >
+        <h2>Forgot Password</h2>
+        <p>Do you want to log in with your Google account to reset your password?</p>
+        <GoogleLogin
+          onSuccess={(response) => {
+            responseMessage(response);
+            navigate("/reset-password");
+          }}
+          onError={errorMessage}
+          render={(renderProps) => (
+            <button
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+              className="login-google-button"
+            >
+              <img src={googleIcon} alt="Google Logo" />
+              Login with Google
+            </button>
+          )}
+        />
+        <button onClick={() => setModalIsOpen(false)}>Cancel</button>
+      </Modal>
     </div>
   );
 }
