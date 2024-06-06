@@ -134,7 +134,7 @@ router.get("/task", async (req, res) => {
         return res.status(400).json({ message: "User ID is required." });
       }
 
-      let projects = await Project.find({ postedBy : postedBy , completed : true }, 'projectTitle projectBudget');
+      let projects = await Project.find({ postedBy : postedBy , completed : true , paymentStatus : true }, 'projectTitle projectBudget');
       res.status(200).json(projects);
     } catch (error) {
       console.error(error);
@@ -150,7 +150,7 @@ router.get("/task", async (req, res) => {
         return res.status(400).json({ message: "User ID is required." });
       }
 
-      let projects = await Project.find({ postedBy : postedBy , completed : true }, 'projectTitle projectBudget projectDescription location projectCategory projectDuration contactInformation deadline additionalNotes');
+      let projects = await Project.find({ postedBy : postedBy , completed : true , paymentStatus : true }, 'projectTitle projectBudget projectDescription location projectCategory projectDuration contactInformation deadline additionalNotes');
       res.status(200).json(projects);
     } catch (error) {
       console.error(error);
@@ -158,6 +158,26 @@ router.get("/task", async (req, res) => {
     }
   });
 
+  // Update Payment Status
+  router.patch('/updatePaymentStatus/:projectId', async (req, res) => {
+    try {
+      const projectId = req.params.projectId;
   
+      const updatedProject = await Project.findByIdAndUpdate(
+        projectId,
+        { paymentStatus: true },
+        { new: true } // Return the updated document
+      );
+  
+      if (!updatedProject) {
+        return res.status(404).send('Project not found');
+      }
+  
+      res.json(updatedProject);
+    } catch (error) {
+      console.error('Error updating project:', error);
+      res.status(500).send('Server error');
+    }
+  });
 
 export default router;

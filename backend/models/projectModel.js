@@ -7,6 +7,7 @@ const getDefaultFilter = function () {
 
 const projectSchema = mongoose.Schema(
   {
+    paymentStatus: {type: Boolean , default: false},
     postedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
     companyLogo: { data: Buffer, contentType: String },
     companyName: { type: String },
