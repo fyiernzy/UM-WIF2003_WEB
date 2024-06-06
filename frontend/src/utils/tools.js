@@ -4,9 +4,13 @@ export const getRandomAvatar = (username) => {
 
 export const getAvatar = (user) => {
   if (!user) {
-    throw new Error("NullUserError: user in getAvatar cannot be null.");
+    return getRandomAvatar("anonymous");
   }
   return user.profilePic
     ? `data:${user.profilePic};base64,${user.profilePic}`
     : getRandomAvatar(user.username);
+};
+
+export const getAvatarByUsername = (username) => {
+  return getRandomAvatar(username);
 };

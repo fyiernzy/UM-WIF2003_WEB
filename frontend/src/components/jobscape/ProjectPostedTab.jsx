@@ -5,10 +5,8 @@ import axios from "../../utils/customAxios";
 import ProjectPostedUser from "./ProjectPostedUser";
 import "../../components-css/jobscape/ProjectPostedTab.css";
 import Rating from "react-rating-stars-component";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import default_avatar from "../../assets/icons/profile/avatar-default-symbolic-svgrepo-com.svg";
-
-
 
 const ProjectPostedTab = ({
   projectId,
@@ -126,7 +124,7 @@ const ProjectPostedTab = ({
           </div>
           <div className="PDetails">
             <p>{due}</p>
-            <p>{budget}</p>
+            <p>RM{budget}</p>
             <div>{formatPostedDate(postedDate)}</div>
           </div>
         </div>
@@ -145,7 +143,11 @@ const ProjectPostedTab = ({
             <div className="ModalContent">
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <img
-                  src={selectedApplicant.profilePic ? `data:${selectedApplicant.profilePic};base64,${selectedApplicant.profilePic}` : default_avatar}
+                  src={
+                    selectedApplicant.profilePic
+                      ? `data:${selectedApplicant.profilePic};base64,${selectedApplicant.profilePic}`
+                      : default_avatar
+                  }
                   alt="Profile Picture"
                   className="ProfilePic"
                 />

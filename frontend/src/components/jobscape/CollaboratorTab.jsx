@@ -3,9 +3,9 @@ import { Badge, Button, Modal } from "react-bootstrap";
 import Rating from "react-rating-stars-component";
 import "../../components-css/jobscape/CollaboratorTab.css";
 import { useUserContext } from "../../context/UserContext";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import default_avatar from "../../assets/icons/profile/avatar-default-symbolic-svgrepo-com.svg";
-
+import { getAvatarByUsername } from "../../utils/tools";
 
 const CollaboratorTab = ({
   freelancerID,
@@ -27,12 +27,20 @@ const CollaboratorTab = ({
   };
   const navigateToFreelancerProfilePage = () => {
     navigate(`/Profile/${freelancerID}`);
-  }
+  };
 
   return (
     <div className="CollaboratorTab">
       <div className="LeftContent">
-        <img src={profilePic ? `data:${profilePic};base64,${profilePic}` : default_avatar} alt="Profile Picture" className="ProfilePic" />
+        <img
+          src={
+            profilePic
+              ? `data:${profilePic};base64,${profilePic}`
+              : getAvatarByUsername(username)
+          }
+          alt="Profile Picture"
+          className="ProfilePic"
+        />
         <div>
           <p className="CollaboratorName">{username}</p>
           <Rating
@@ -68,7 +76,11 @@ const CollaboratorTab = ({
           <div className="ModalContent" style={{ position: "relative" }}>
             <div style={{ display: "flex" }}>
               <img
-                src={profilePic ? `data:${profilePic};base64,${profilePic}` : default_avatar}
+                src={
+                  profilePic
+                    ? `data:${profilePic};base64,${profilePic}`
+                    : getAvatarByUsername(username)
+                }
                 alt="Profile Picture"
                 className="ProfilePic"
               />

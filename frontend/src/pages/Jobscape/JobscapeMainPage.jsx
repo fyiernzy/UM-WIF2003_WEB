@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import JobscapeHeader from "../../components/jobscape/JobscapeHeader";
 import SearchBar from "../../components/jobscape/SearchBar";
 import CategoryBar from "../../components/jobscape/CategoryBar";
@@ -22,6 +22,11 @@ import { useUserContext } from "../../context/UserContext";
 const JobscapeMainPage = () => {
   const [searchValue, setSearchValue] = useState("");
   const { user } = useUserContext();
+  const navigate = useNavigate();
+
+  if (!user) {
+    navigate("/");
+  }
 
   const positionTabs = [
     {
@@ -120,7 +125,7 @@ const JobscapeMainPage = () => {
             marginTop: "20px",
           }}
         >
-          {user.role == "freelancer" ? (
+          {user && user.role == "freelancer" ? (
             <Link to="/YourJobs">
               <Button
                 className="floating-your-jobs-btn"

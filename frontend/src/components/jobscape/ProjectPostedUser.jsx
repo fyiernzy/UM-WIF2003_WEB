@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Badge } from "react-bootstrap";
 import "../../components-css/jobscape/ProjectPostedUser.css";
 import Rating from "react-rating-stars-component";
+import default_avatar from "../../assets/icons/profile/avatar-default-symbolic-svgrepo-com.svg";
 
 const ProjectPostedUser = ({
   applicant,
@@ -15,9 +16,6 @@ const ProjectPostedUser = ({
 
   useEffect(() => {
     if (profilePic) {
-      // Convert base64 string to image URL
-      const imageUrl = `data:image/jpeg;base64,${profilePic}`;
-      setImageUrl(imageUrl);
     }
   }, [profilePic]);
 
@@ -33,7 +31,7 @@ const ProjectPostedUser = ({
     <div className="ProjectPostedUser">
       <div className="LeftContent">
         <img
-          src={imageUrl}
+          src={profilePic ? `${profilePic}` : default_avatar}
           alt={`${username}'s profile`}
           className="ProfilePic"
         />
@@ -75,8 +73,7 @@ const ProjectPostedUser = ({
           </Button>
         </div>
       </div>
-      <div>
-      </div>
+      <div></div>
     </div>
   );
 };

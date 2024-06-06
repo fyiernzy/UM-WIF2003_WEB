@@ -1,9 +1,9 @@
-import React from "react";
+import { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import EditProfileIcon from "../../assets/icons/profile/edit_fill.svg";
 import default_avatar from "../../assets/icons/profile/avatar-default-symbolic-svgrepo-com.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
 import AccessToInvoicePayment from "../payment/AccessToInvoicePayment";
 import { getAvatar } from "../../utils/tools";
@@ -20,6 +20,13 @@ function ProfileHeader(props) {
     role,
   } = props;
   const { user } = useUserContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  });
 
   const renderValue = (value, fieldName) => {
     if (
@@ -101,7 +108,7 @@ function ProfileHeader(props) {
                   Tags haven't been set
                 </div>
               )}
-              {userId === user._id && (
+              {user && userId === user._id && (
                 <Link to={`/EditProfile/${userId}`}>
                   <img
                     src={EditProfileIcon}

@@ -12,18 +12,17 @@
   padding-bottom: 1%;
   box-shadow: 10px 5px 15px 3px rgba(0, 0, 0, 0.4);
   overflow: hidden;
-  transition: transform 0.2s ease-in-out; 
+  transition: transform 0.2s ease-in-out;
 }
 
 .InProgressProjectTab:hover {
   transform: translateY(-5px);
 }
 
-.ProjectPostedTab .projectDetails {
+.InProgressProjectTab .projectDetails {
   width: 100%;
   white-space: nowrap;
 }
-
 
 .InProgressProjectTab .content {
   display: flex;
