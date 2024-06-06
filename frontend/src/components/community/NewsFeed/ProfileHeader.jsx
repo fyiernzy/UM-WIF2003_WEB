@@ -1,8 +1,15 @@
 import { Image } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-function ProfileHeader({ img, name, title, time }) {
+function ProfileHeader({ img, name, title, time, userId }) {
+  const navigate = useNavigate();
   return (
-    <div className="tw-inline-flex tw-items-center tw-gap-x-3 tw-mb-4">
+    <div
+      className="tw-inline-flex tw-items-center tw-gap-x-3 tw-mb-4 hover:tw-cursor-pointer"
+      onClick={() => {
+        navigate(`/Profile/${userId}`);
+      }}
+    >
       <Image
         src={img}
         alt="profile"

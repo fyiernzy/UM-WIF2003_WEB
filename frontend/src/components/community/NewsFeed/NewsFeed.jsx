@@ -5,6 +5,7 @@ import "../../../components-css/Community/NewsFeed.css";
 import WritePost from "../WritePost/WritePost";
 import { useNewsFeedContext } from "../../../context/NewsFeedContext";
 import { PostProvider } from "../../../context/PostContext";
+import { getAvatar } from "../../../utils/tools";
 
 function NewsFeed() {
   const newsFeedList = useNewsFeedContext().newsFeedList;
@@ -22,7 +23,8 @@ function NewsFeed() {
           newsFeedList.map((post, index) => (
             <PostProvider key={index} postId={post._id} post={post}>
               <NewsFeedItem
-                authorImage={null}
+                authorId={post.author._id}
+                authorImage={getAvatar(post.author)}
                 authorName={post.author.username}
                 authorHeadline={post.author.headline || "Nothing"}
                 postId={post._id}
