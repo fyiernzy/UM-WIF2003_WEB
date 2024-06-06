@@ -93,7 +93,7 @@ function Profile() {
             {isRecruiter ? (
               <JobHistoryRecruiter userId={userId}/>
             ) : (
-              <JobHistory userId={userId} role={profile.role}/>
+              <JobHistory userId={userId} />
             )}
             
           </Col>
