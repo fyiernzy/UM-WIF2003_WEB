@@ -80,10 +80,10 @@
 }
 
 .card-wenhao {
-  background-color: rgba(152, 149, 149, 0.2);
-  backdrop-filter: blur(10px);
+  background-color: rgb(203 213 225);
+  /* backdrop-filter: blur(10px); */
   border-radius: 30px;
-  height: 80vh;
+  height: 70vh;
   margin-top: 2vh;
   padding-top: 5vh;
   padding-left: 7vh;
@@ -119,7 +119,7 @@
 .RightContainer {
   background-color: #2d4777;
   border-radius: 50px;
-  height: 540px;
+  height: 630px;
   margin-top: 30px;
   margin-right: 70px;
 }
@@ -154,7 +154,7 @@
 .titleRight {
   font-family: "Lato", sans-serif;
   font-weight: bold;
-  margin-top: 30px;
+  margin-top: 28px;
   margin-left: 40px;
   font-size: 25px;
   margin-bottom: 20px;
@@ -1377,4 +1377,36 @@
   margin-top: 20px;
   margin-bottom: 20px;
   font-family: "Lato", sans-serif;
+}
+
+.payment-btn-container-in-profile {
+  display: flex;
+  justify-content: center;
+  margin-left: 8vh;
+}
+
+.view-invoice-btn-in-profile {
+  padding: 6px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2d4777;
+  color: white;
+  margin-right: 1vh;
+  font-size: 13px;
+}
+
+.view-payment-history-btn-in-profile {
+  padding: 6px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2d4777;
+  color: white;
+  font-size: 13px;
+}
+
+.view-payment-history-btn-in-profile:hover,
+.view-invoice-btn-in-profile:hover {
+  background-color: #80d1d5;
+  color: black;
+  border: none;
 }

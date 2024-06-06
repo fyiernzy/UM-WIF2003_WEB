@@ -49,9 +49,21 @@ const ReviewProjectPage = () => {
     fetchData();
   }, [user]);
 
-  const moveToInProgress = (project) => {
-    setProjectPosted((prev) => prev.filter((p) => p._id !== project._id));
-    setInProgressProjects((prev) => [...prev, project]);
+  const moveToInProgress = async (project) => {
+    try {
+      // Assuming you have an endpoint to update the project status and add collaborator details
+      const response = await axios.put(
+        `http://localhost:5050/recruite/move-to-in-progress/${project._id}`,
+        { status: "in-progress" }
+      );
+
+      const updatedProject = response.data;
+
+      setProjectPosted((prev) => prev.filter((p) => p._id !== project._id));
+      setInProgressProjects((prev) => [...prev, updatedProject]);
+    } catch (error) {
+      console.error("Error moving project to in-progress:", error);
+    }
   };
 
   const deleteProject = (projectId) => {
@@ -98,7 +110,7 @@ const ReviewProjectPage = () => {
                 budget={project.projectBudget}
                 postedDate={project.createdAt}
                 onMoveToInProgress={moveToInProgress}
-                onDeleteProject={deleteProject} // Pass the delete function
+                onDeleteProject={deleteProject}
               />
             ))
           )}

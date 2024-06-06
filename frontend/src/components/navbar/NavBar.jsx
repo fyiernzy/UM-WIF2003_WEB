@@ -6,6 +6,7 @@ import { useUserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../../api/authApi";
 import UserProfileMenu from "./UserProfileMenu";
+import NotificationBell from "../jobscape/NotificationBell";
 import AuthLinks from "./AuthLinks";
 
 export default function NavBar() {
@@ -64,7 +65,7 @@ export default function NavBar() {
             </ul>
           )}
         </div>
-
+        {user ? <NotificationBell /> : <></>}
         <div>
           {user ? (
             <UserProfileMenu

@@ -74,11 +74,11 @@ function App() {
           <Route path="/ForgotP" element={<ForgotP />} />
           <Route path="/EnterCode" element={<EnterCode />} />
           <Route path="/NewPass" element={<NewPass />} />
-          <Route path="/JobscapeMainPage" element={<JobscapeMainPage />} />
 
           <Route path="/SeekTalentPage" element={<SeekTalentPage />} />
 
           <Route element={<ProtectedRoute />}>
+            <Route path="/JobscapeMainPage" element={<JobscapeMainPage />} />
             <Route
               path="/PostProjectPage/:userId"
               element={<PostProjectPage />}
@@ -107,10 +107,9 @@ function App() {
               element={<JobHistoryDetails />}
             />
             <Route path="/SeekJobPage" element={<SeekJobPage />} />
+            <Route path="/Favorite" element={<FavoritePage />} />
             {/* Add all your routes here */}
           </Route>
-
-          <Route path="/Favorite" element={<FavoritePage />} />
 
           <Route path="/Profile/:userId" element={<Profile />} />
           <Route path="/EditProfile/:userId" element={<EditProfile />} />

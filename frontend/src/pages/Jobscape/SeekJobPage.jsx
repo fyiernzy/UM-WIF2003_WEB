@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { Button, Container, Row, Col } from "react-bootstrap";
+import { useNavigate, Link } from "react-router-dom";
 import "../../App.css";
-import axios from "axios";
+import axios from "../../utils/customAxios";
 import SmallTitle from "../../components/jobscape/SmallTitle";
 import SearchBar from "../../components/jobscape/SearchBar";
 import SearchButton from "../../components/jobscape/SearchButton";
@@ -8,11 +10,10 @@ import FilterTab from "../../components/jobscape/FilterTab";
 import SearchResultTab from "../../components/jobscape/SearchResultTab";
 import ProjectTab from "../../components/jobscape/ProjectTab";
 import PageNumberNav from "../../components/jobscape/PageNumberNav";
-import WeddingLogo from "../../assets/icons/jobscape/WeddingLogo.svg";
-import DellLogo from "../../assets/icons/jobscape/DellLogo.svg";
 import searchbtn from "../../assets/icons/icon_search.svg";
 import { getFavoriteProjects } from "../../api/projectApi";
 import { useUserContext } from "../../context/UserContext";
+import "../../pages-css/Jobscape/SeekJobPage.css";
 
 const SeekJobPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,15 +23,13 @@ const SeekJobPage = () => {
   const { user } = useUserContext();
   console.log("userContext in seekjobpage: " + user._id);
   const userId = user._id;
-
+  const navigate = useNavigate();
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   const [projectTabs, setProjectTabs] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [sortingOption, setSortingOption] = useState("newOrRate");
 
   useEffect(() => {
     const fetchFavoritedProjects = async () => {
@@ -48,10 +47,6 @@ const SeekJobPage = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get("http://localhost:5050/projects");
-        // response is an array of Objects
-        // console.log(
-        //   "Axios response.data: " + JSON.stringify(response.data.data)
-        // );
         const fetchedProjects = response.data.data.map((project) => {
           let companyName = project.postedBy.username;
           console.log("Company Name: " + JSON.stringify(project));
@@ -134,7 +129,7 @@ const SeekJobPage = () => {
         prevFilters.filter((filter) => filter !== name)
       );
     }
-    setCurrentPage(1); // Reset to the first page when filters change
+    setCurrentPage(1);
   };
 
   const projectPerPage = 7;
@@ -143,19 +138,22 @@ const SeekJobPage = () => {
     {
       filterTitle: "PROJECT CATEGORY",
       filterTypes: [
-        "Tech & IT",
-        "Creative & Design",
-        "Content Writing",
-        "Education & Training",
-        "Marketing",
-        "Finance",
-        "Healthcare",
-        "Engineering",
+        "Software Development",
+        "Tutoring & Education",
+        "Web Development",
+        "Graphics Design",
+        "Video Editing",
+        "Social Media Management",
+        "Content Creation",
+        "Photography",
+        "Customer Support",
+        "Research Assistance",
+        "Others",
       ],
     },
     {
       filterTitle: "PROJECT DURATION",
-      filterTypes: ["Short Term", "Long Term", "OnGoing"],
+      filterTypes: ["Short Term", "Long Term"],
     },
 
     {
@@ -165,7 +163,7 @@ const SeekJobPage = () => {
         "Selangor",
         "Negeri Sembilan",
         "Melaka",
-        "Johore",
+        "Johor",
         "Kelantan",
         "Terengganu",
         "Perak",
@@ -173,7 +171,6 @@ const SeekJobPage = () => {
         "Remote",
       ],
     },
-    // Add more FilterTab objects as needed
   ];
 
   const filteredProjects = projectTabs.filter((project) => {
@@ -191,7 +188,20 @@ const SeekJobPage = () => {
 
   return (
     <>
-      <div style={{ margin: "80px 0 10px" }}>
+      <div className="seekjob-top-container">
+        <Button className="seekjob-back-btn" onClick={() => navigate(-1)}>
+          <p>
+            <i className="bi bi-chevron-left"></i>Back
+          </p>
+        </Button>
+        <Link to="/Favorite">
+          <Button className="to-job-list-btn">
+            My saved projects <i className="bi bi-chevron-double-right" />
+          </Button>
+        </Link>
+      </div>
+
+      <div style={{ margin: "20px 0 10px" }}>
         <SmallTitle
           title="Find Your Dream Project"
           fontWeight="700"

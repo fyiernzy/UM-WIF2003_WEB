@@ -8,6 +8,8 @@ import CancelIcon from '../../assets/icons/profile/cancel.svg';
 import WorkCaseIcon from '../../assets/icons/profile/work-case-svgrepo-com 1.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../../components-css/Profile/EditProfileCSS.css';
+import CircularJSON from 'circular-json';
+
 
 
 function EditProfile() {
@@ -45,13 +47,14 @@ function EditProfile() {
 
     const handleSave = async () => {
         try {
+            const safeProfileData = CircularJSON.stringify(profileData);
             setShowLoading(true);
             const response = await fetch(`http://localhost:5050/users/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(profileData),
+                body: safeProfileData
             });
 
             if (response.ok) {

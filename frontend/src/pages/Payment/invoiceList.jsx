@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import "../../pages-css/Payment/Payment.css";
 import Tnc from "../../components/payment/tnc";
 import { useUserContext } from "../../context/UserContext";
 import axios from '../../utils/customAxios';
 import jsPDF from 'jspdf';
+import BackButton from "../../components/payment/BackButton";
 
 function InvoiceList() {
   
@@ -55,24 +55,24 @@ function InvoiceList() {
       fetchInvoiceContent(user._id);
     }
   }, [user]);
-
  
-  const handleDownload = async () => {
+  const handleDownload = async (invoiceContent) => {
     try {
-      if (invoiceContent && invoiceContent.length > 0) {
-        invoiceContent.forEach((invoiceContent, index) => {
+      if (invoiceContent) {
+        invoiceContent.forEach(async (invoiceContent, index) => {
           const doc = new jsPDF();
-  
-          // Add project details
-          doc.setFontSize(14);
+
+          doc.setFontSize(24);
           doc.setFont('helvetica', 'bold');
-          doc.text(`Project ${index + 1} Details`, 20, 20);
+          const titleText = 'Invoice';
+          const titleWidth = doc.getStringUnitWidth(titleText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+          const titleX = (doc.internal.pageSize.width - titleWidth) / 2;
+          doc.text(titleText, titleX, 20);
+          
   
-          // Add page number
           doc.setFontSize(12);
           doc.setFont('helvetica', 'normal');
   
-          // Add project details
           let currentY = 40;
           doc.setFontSize(12);
           doc.setFont('helvetica', 'normal');
@@ -80,7 +80,7 @@ function InvoiceList() {
           doc.text(`Project Title: ${invoiceContent.projectTitle || ''}`, 20, currentY);
           currentY += 10;
   
-          doc.text(`Project Budget: RM${invoiceContent.projectBudget || ''}`, 20, currentY);
+          doc.text(`Project Budget: RM${invoiceContent.projectBudget + 10 || ''}`, 20, currentY);
           currentY += 10;
   
           doc.text(`Project Description: ${invoiceContent.projectDescription || ''}`, 20, currentY);
@@ -102,9 +102,8 @@ function InvoiceList() {
           currentY += 10;
   
           doc.text(`Additional Notes: ${invoiceContent.additionalNotes || ''}`, 20, currentY);
-          currentY += 20; // Add extra space after each project
+          currentY += 20;
   
-          // Save the PDF with numbered filename
           doc.save(`Invoice_${index + 1}.pdf`);
         });
       } else {
@@ -114,34 +113,28 @@ function InvoiceList() {
       console.error('Error generating PDF:', error);
     }
   };
-    
+
+  
   const handleInvClick = () => {
-        handleDownload();
+        handleDownload(invoiceContent);
       };
 
   return (
     <><div className="invoice-list-containerner">
       <div className="invoice-listing">
 
-        <Button
-          className="BackBtn"
-          onClick={() => (window.location.href = "/successful")}>
-          <p>
-            <i className="bi-chevron-left" />
-            Back
-          </p>
-        </Button>
+        <BackButton/>
 
         <div className="card-wenhao">
           <p className="INV-title-name">Invoice List</p>
 
           {invoices.map((invoice, index) => (
-        <div key={index} className="INV" onClick={() => handleInvClick(invoice)}>
-          <p className="INVName">Completed</p>
-          <p className="INVPrice">{invoice.projectTitle}</p>
-          <p className="INVDesc">RM {parseFloat(invoice.projectBudget) + 10}</p>
-        </div>
-      ))}
+            <div key={index} className="INV" onClick={() => handleInvClick(invoice)}>
+              <p className="INVName">Completed</p>
+              <p className="INVPrice">{invoice.projectTitle}</p>
+              <p className="INVDesc">RM {parseFloat(invoice.projectBudget) + 10}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

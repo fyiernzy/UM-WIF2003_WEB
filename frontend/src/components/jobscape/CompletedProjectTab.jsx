@@ -27,6 +27,9 @@ const CompletedProjectTab = ({
   const [showLocalNotification, setShowLocalNotification] = useState(false);
   const [hasSubmittedReview, setHasSubmittedReview] = useState(false);
   const [showReviewNotification, setShowReviewNotification] = useState(false);
+  const [buttonText, setButtonText] = useState('Pay');
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [buttonColor, setButtonColor] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,6 +95,17 @@ const CompletedProjectTab = ({
       });
   };
 
+  useEffect(() => {
+    // Check if payment is already done for this project
+    const paymentStatus = localStorage.getItem(`paymentStatus_${projectId}`);
+    if (paymentStatus === "Paid") {
+      setButtonText("Paid");
+      setButtonDisabled(true); 
+      setButtonColor("#d3d3d3");
+    }
+  }, []);
+
+
   const handlePayBtnClick = async () => {
     if (isProjectAccepted) {
       try {
@@ -103,6 +117,8 @@ const CompletedProjectTab = ({
 
         localStorage.setItem("projectTitle", projectTitle);
         localStorage.setItem("projectBudget", projectBudget);
+
+        localStorage.setItem(`paymentStatus_${projectId}`, "Paid");
 
         navigate("/ewallet", {
           state: { projectTitle, projectBudget },
@@ -169,8 +185,8 @@ const CompletedProjectTab = ({
           <div className="RateBtn" onClick={handleRateClick}>
             Rate
           </div>
-          <button className="PayBtn" onClick={handlePayBtnClick}>
-            Pay
+          <button className="PayBtn" onClick={handlePayBtnClick} disabled={buttonDisabled} style={{backgroundColor: buttonColor}} >
+            {buttonText}
           </button>
         </div>
       </div>

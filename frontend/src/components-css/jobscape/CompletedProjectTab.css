@@ -11,14 +11,17 @@
   flex-shrink: 0;
   margin-right: 20px;
   box-shadow: 10px 5px 15px 3px rgba(0, 0, 0, 0.4);
-  overflow: hidden; /* Add this line */
+  overflow: hidden; 
+  transition: transform 0.2s ease-in-out; 
+}
+
+.CompletedProjectTab:hover {
+  transform: translateY(-5px);
 }
 
 .CompletedProjectTab .projectDetails {
   width: 100%;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .CompletedProjectTab .content {
@@ -32,7 +35,6 @@
 .CompletedProjectTab .content .Details {
   width: 50%;
   color: #2d4777;
-  font-weight: 500;
   font-size: 16px;
 }
 

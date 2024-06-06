@@ -1,32 +1,31 @@
-// src/components/Profile/JobHistory.js
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Image, Modal, Button } from "react-bootstrap";
 import "../../components-css/Profile/JobHistoryCSS.css";
 import { useNavigate } from "react-router-dom";
-import { getCompletedProjects } from "../../api/projectApi";
+import axios from "../../utils/customAxios";
 import noJob from "../../assets/profile/no_job.svg";
 
-const JobHistory = ({ userId }) => {
-  const [completedProjects, setCompletedProjects] = useState([]);
+const JobHistoryRecruiter = ({ userId }) => {
+  const [postedProjects, setProjectPosted] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCompletedProjects = async () => {
+    const fetchData = async () => {
       try {
-        const response = await getCompletedProjects(userId);
-        setCompletedProjects(response.completedProjects);
+        const postedResponse = await axios.get(
+          `http://localhost:5050/recruite/posted?userId=${userId}`
+        );
+        setProjectPosted(postedResponse.data);
       } catch (error) {
-        console.error("Error: " + error.message);
-        setError("Failed to fetch completed projects.");
+        console.error("Error fetching projects:", error);
+        setError("Failed to fetch job history. Please try again later.");
       }
     };
-    fetchCompletedProjects();
-  }, [userId]);
 
-  useEffect(() => {
-    console.log("Current completed projects: ", completedProjects);
-  }, [completedProjects]);
+    fetchData();
+  }, [userId]);
 
   const handleClick = (project) => {
     setSelectedProject(project);
@@ -40,7 +39,7 @@ const JobHistory = ({ userId }) => {
     return <p>{error}</p>;
   }
 
-  if (completedProjects.length === 0) {
+  if (postedProjects.length === 0) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <img style={{ width: '150px', height: '100px' }} src={noJob} alt="No Job" />
@@ -50,12 +49,11 @@ const JobHistory = ({ userId }) => {
 
   return (
     <>
-      {completedProjects.map((jobInfo, index) => (
+      {postedProjects.map((jobInfo, index) => (
         <div key={index} className="job-history-card" onClick={() => handleClick(jobInfo)}>
           <Row className="header">
             <Col xs={7} className="info-column">
               <h3 className="fs-5"><strong>{jobInfo.projectTitle}</strong></h3>
-              <p>{jobInfo.companyName}</p>
             </Col>
             <Col xs={3} className="status-column fs-6">
               <p>{jobInfo.completed ? "Completed" : "Ongoing"}</p>
@@ -71,12 +69,13 @@ const JobHistory = ({ userId }) => {
         </div>
       ))}
 
-{selectedProject && (
+      {selectedProject && (
         <Modal show={true} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{selectedProject.projectTitle}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            <p className="mt-3"><strong>Collaborator:</strong> {selectedProject.collaboratorName}</p>
             <p className="mt-3"><strong>Description:</strong> {selectedProject.projectDescription}</p>
             <p className="mt-3"><strong>Location:</strong> {selectedProject.location}</p>
             <p className="mt-3"><strong>Category:</strong> {selectedProject.projectCategory}</p>
@@ -109,9 +108,8 @@ const JobHistory = ({ userId }) => {
           </Modal.Footer>
         </Modal>
       )}
-      
     </>
   );
 };
 
-export default JobHistory;
+export default JobHistoryRecruiter;

@@ -16,16 +16,6 @@ export default function JobsListItem({
   deadline,
   review,
 }) {
-  JobsListItem.defaultProps = {
-    completed: false,
-    satisfaction: 1,
-    projectrating: 1,
-    projectfeedback: "No feedback",
-    personrating: 1,
-    personfeedback: "No feedback",
-    imgurl: userImg,
-    reviewname: "None",
-  };
   const [showReview, setShowReview] = useState(false);
   const [collaboratorName, setCollaboratorName] = useState("");
   const navigate = useNavigate();
@@ -54,12 +44,12 @@ export default function JobsListItem({
           <Container className="job-details-text">
             <Row>
               <Col>
-                <p>Due:</p>
-                <p>Budget:</p>
-                <p>Collaborator:</p>
+                <p className="detail-type">Due:</p>
+                <p className="detail-type">Budget:</p>
+                <p className="detail-type">Collaborator:</p>
               </Col>
               <Col>
-                <p>{moment(deadline).format("DD-MM-YYYY")}</p>
+                <p>{moment(deadline).format("DD/MM/YYYY")}</p>
                 <p>RM{projectBudget}</p>
                 <p className="company-name">{collaboratorName}</p>
               </Col>

@@ -94,9 +94,13 @@
   color: #8590a4;
 }
 .job-details-body .button-group .applying-text {
+  color: white;
+  background-color: #a0a5ae;
+  border: none;
   margin-right: 10px;
 }
 .job-details-body .button-group .applying-text:hover {
+  background-color: #828892;
   cursor: pointer;
 }
 .job-details-body .button-group .accept {

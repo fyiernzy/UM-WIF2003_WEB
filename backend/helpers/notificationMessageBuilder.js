@@ -2,21 +2,21 @@
 // const notif = buildApplyingMessage(user, project.postedBy, project);
 // await saveNotification(notif);
 // receiver is userId, not user object
-export const buildApplyingMessage = (sender, receiverId, project) => {
-  console.log("buildapplying message receiver: " + receiverId);
+export const buildApplyingMessage = (sender, project) => {
+  console.log("buildapplying message receiver: " + project.postedBy._id);
   const message = `${sender.username} has applied for your "${project.projectTitle}".`;
   return {
-    userId: receiverId,
+    userId: project.postedBy._id,
     senderId: sender._id,
     message: message,
   };
 };
 
-export const buildApplicationSuccessMessage = (receiverId, project) => {
+export const buildApplicationSuccessMessage = (receiver, project) => {
   console.log("buildApplicationSuccessMessage: " + project.postedBy._id);
   const message = `Your application for "${project.projectTitle}" has been accepted!`;
   return {
-    userId: receiverId,
+    userId: receiver._id,
     senderId: project.postedBy._id,
     message: message,
   };

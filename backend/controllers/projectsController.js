@@ -127,6 +127,24 @@ export const getFavoriteProjects = async (req, res) => {
     });
   }
 };
+export const getFavoriteProjectsDetails = async (req, res) => {
+  const userId = req.params.userId;
+  console.log("getfavprojects req.body: " + userId);
+  try {
+    const user = await User.findById(userId).populate({
+      path: "favoriteProjects",
+      populate: { path: "postedBy", select: "username" },
+    });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ favoriteProjects: user.favoriteProjects });
+  } catch (error) {
+    res.status(400).json({
+      error: "Inside GET /favorite-project endpoint " + error.message,
+    });
+  }
+};
 export const addApplyingProject = async (req, res) => {
   console.log(req.body);
   const { userId, projectId } = req.body;
@@ -144,7 +162,7 @@ export const addApplyingProject = async (req, res) => {
       project.applicants.push(userId);
       await project.save();
     }
-    const notif = buildApplyingMessage(project.postedBy, userId, project);
+    const notif = buildApplyingMessage(user, project);
     await saveNotification(notif);
     res.status(200).json({ user, project });
   } catch (error) {
@@ -164,6 +182,30 @@ export const getApplyingProjects = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       error: "Inside GET /applying-project endpoint " + error.message,
+    });
+  }
+};
+
+export const removeApplyingProject = async (req, res) => {
+  const { userId, projectId } = req.body;
+  try {
+    const user = await User.findById(userId);
+    if (user.applyingProjects.includes(projectId)) {
+      user.applyingProjects.pull(projectId);
+      await user.save();
+    } else {
+      return res.status(200).json({ message: "no error" });
+    }
+    const project = await Project.findById(projectId);
+    if (project.applicants.includes(userId)) {
+      project.applicants.pull(userId);
+      await project.save();
+    } else {
+      return res.status(200).json({ message: "no error" });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: "Inside PUT /applying-project endpoint " + error.message,
     });
   }
 };

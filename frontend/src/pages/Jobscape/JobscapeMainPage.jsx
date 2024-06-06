@@ -45,7 +45,7 @@ const JobscapeMainPage = () => {
       paddingLeft: "5%",
       paddingRight: "10%",
       textAlign: "right",
-      positionType: "I AM A FREELANCE!",
+      positionType: "I AM A FREELANCER!",
       content:
         "Are you a freelancer looking for exciting opportunities to showcase your skills and connect with clients? Look no further! Our platform is a hub for talented freelancers like you to find projects, collaborate with clients, and grow your freelance business.",
       buttonType: "Seeking",
@@ -120,7 +120,7 @@ const JobscapeMainPage = () => {
             marginTop: "20px",
           }}
         >
-          {user && (
+          {user.role == "freelancer" ? (
             <Link to="/YourJobs">
               <Button
                 className="floating-your-jobs-btn"
@@ -133,6 +133,8 @@ const JobscapeMainPage = () => {
                 Your Jobs <i className="bi bi-exclamation-circle-fill" />
               </Button>
             </Link>
+          ) : (
+            <></>
           )}
         </div>
       </div>

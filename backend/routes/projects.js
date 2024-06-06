@@ -16,9 +16,12 @@ import {
   addApplyingProject,
   getApplyingProjects,
   getFavoriteProjects,
+  removeApplyingProject,
+  getFavoriteProjectsDetails,
 } from "../controllers/projectsController.js";
 import mongoose, { mongo } from "mongoose";
 import { downloadFile } from "../middlewares/downloadMiddleware.js";
+
 const router = e.Router();
 // Configure storage for multer
 const storage = multer.diskStorage({
@@ -46,12 +49,16 @@ router.get("/download", downloadFile);
 router.post("/favorite-project", saveFavoriteProject);
 // GET /favorite-project - Get user's favoriteProjects
 router.get("/favorite-project/:userId", getFavoriteProjects);
+// GET /favorite-project-details - Get user's favoriteProjects and details
+router.get("/favorite-project-details/:userId", getFavoriteProjectsDetails);
 // POST /remove-favorite-project - Removes projectId into current user's favoriteProjects
 router.post("/remove-favorite-project", removeFavoriteProject);
 
 // POST /applying-project - Adds projectId into current user's applyingProjects
 router.post("/applying-project", addApplyingProject);
 
+// PUT /applying-project - Removes an applying project
+router.put("/applying-project/remove", removeApplyingProject);
 // GET /applying-project - Retrieves all applying projects of current user
 router.get("/applying-project/:userId", getApplyingProjects);
 

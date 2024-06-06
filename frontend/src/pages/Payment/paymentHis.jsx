@@ -1,8 +1,9 @@
 import React , { useEffect, useState } from "react";
 import "../../pages-css/Payment/Payment.css";
-import { Button } from "react-bootstrap";
+import Tnc from "../../components/payment/tnc";
 import { useUserContext } from "../../context/UserContext";
 import axios from '../../utils/customAxios';
+import BackButton2 from "../../components/payment/BackButton2";
 
 function Invoice() {
   const [invoices, setInvoices] = useState([]);
@@ -33,22 +34,12 @@ function Invoice() {
   }, [user]);
 
   return (
-    <div className="invoice-containerner">
-      <Button
-        className="BackBtn-In-PayHis"
-        onClick={() => (window.location.href = "/successful")}>
-        <p>
-          <i className="bi-chevron-left" />
-          Back
-        </p>
-      </Button>
+    <><div className="invoice-containerner">
+      <BackButton2 />
 
       <div className="invoice-list">
-        
-        <p className="paymentHistory">Payment History</p>
-
-        <div className="invoice-listlist">
-
+        <div className="card-wenhao">
+          <p className="INV-title-name">Payment History</p>
           {invoices.map((invoice, index) => (
             <div key={index} className="INV">
               <p className="INVName">{PaymentMethod}</p>
@@ -56,10 +47,9 @@ function Invoice() {
               <p className="INVDesc">RM {parseFloat(invoice.projectBudget) + 10}</p>
             </div>
           ))}
-
         </div>
       </div>
-    </div>
+    </div><Tnc /></>
   );
 }
 export default Invoice;

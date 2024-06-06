@@ -1,7 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "../../pages-css/Payment/Payment.css";
-import back from "../../assets/images/Payment/left.png";
 import tickPic from "../../assets/images/Payment/check-mark.png";
 import { Button } from "react-bootstrap";
 

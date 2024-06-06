@@ -2,13 +2,19 @@
   width: 100%;
   margin-top: 4vh;
   margin-bottom: 8vh;
+  height: 300px;
 }
 
 .in-progress-jobs-container .jobs-list {
+  height: 300px;
   display: flex;
   overflow-x: auto;
+  width: 70vw; /* Adjust as needed */
+  margin: 0 auto 40px;
+  border-radius: 10px;
+  padding: 0 20px; /* Add padding to avoid sticking to edges */
   justify-content: start;
-  padding: 5px 10vw 5px 10vw;
+  align-items: center; /* Align items vertically */
 }
 .in-progress-jobs-container .jobs-list .no-projects {
   flex-grow: 1;
