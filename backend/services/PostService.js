@@ -14,7 +14,6 @@ class PostService {
   }
 
   async postNewPost(userId, title, content, images) {
-    console.log("In PostController/postNewPost, images", images);
     const user = await User.findById(userId);
     handleNotFound(user, "User");
     const post = await Post.create({
@@ -23,7 +22,6 @@ class PostService {
       content: content,
       images: images,
     });
-    console.log("In PostController/postNewPost, posts", post);
     return post;
   }
 
@@ -31,7 +29,8 @@ class PostService {
     return await Post.find()
       .populate("author")
       .populate("comments")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .limit(5);
   }
 
   async getAllPostsByUserId(userId) {

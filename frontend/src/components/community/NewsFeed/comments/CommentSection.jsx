@@ -25,19 +25,15 @@ function CommentSection() {
     setComments((prevComments) => [...prevComments, newComment]);
   };
 
-  const handleLike = (index) => {
-    setComments((prevComments) =>
-      prevComments.map((comment, i) =>
-        i === index ? { ...comment, likes: comment.likes + 1 } : comment
-      )
-    );
-  };
-
   return (
     <div className="tw-w-full tw-bg-gray-100 tw-p-4 tw-rounded-lg">
-      <div className={`${comments.length > 0 ? "tw-mb-4" : "tw-mb-0"}`}>
+      <div
+        className={`tw-flex tw-flex-col ${
+          comments.length > 0 ? "tw-mb-4" : "tw-mb-0"
+        }`}
+      >
         {comments.map((comment, idx) => (
-          <Comment key={idx} comment={comment} onLike={() => handleLike(idx)} />
+          <Comment key={idx} comment={comment} />
         ))}
       </div>
       <CommentInput onSubmit={handleCommentSubmit} />

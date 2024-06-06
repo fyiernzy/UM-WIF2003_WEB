@@ -28,7 +28,27 @@ export const postComments = async (postId, userId, comment) => {
   }
 };
 
-export const likeComment = async (postId, commentId, userId) => {};
+export const likeComment = async (commentId, userId) => {
+  try {
+    const res = await axios.post(`${API_URL}/comments/${commentId}/like`, {
+      userId,
+    });
+    readAndLog(res, "Comment liked successfully", "Failed to like comment");
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const unlikeComment = async (commentId, userId) => {
+  try {
+    const res = await axios.post(`${API_URL}/comments/${commentId}/unlike`, {
+      userId,
+    });
+    readAndLog(res, "Comment liked successfully", "Failed to like comment");
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 export const postLikes = async (postId, userId) => {
   try {

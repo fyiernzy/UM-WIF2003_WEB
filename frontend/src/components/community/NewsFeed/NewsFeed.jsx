@@ -24,6 +24,7 @@ function NewsFeed() {
               <NewsFeedItem
                 authorImage={null}
                 authorName={post.author.username}
+                authorHeadline={post.author.headline || "Nothing"}
                 postId={post._id}
                 postTitle={post.title}
                 postContent={post.content}

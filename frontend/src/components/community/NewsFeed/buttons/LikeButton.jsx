@@ -19,29 +19,32 @@ const LikeButton = () => {
     }
   }, [post, user]);
 
-  const fetchAndUpdateStats = async () => {
-    try {
-      const stats = await fetchPostStats(postId);
-      setNumberOfLikes(stats.numberOfLikes);
-      setNumberOfComments(stats.numberOfComments);
-    } catch (error) {
-      console.error("Error fetching post stats:", error);
-    }
-  };
+  // const fetchAndUpdateStats = async () => {
+  //   try {
+  //     const stats = await fetchPostStats(postId);
+  //     setNumberOfLikes(stats.numberOfLikes);
+  //     setNumberOfComments(stats.numberOfComments);
+  //   } catch (error) {
+  //     console.error("Error fetching post stats:", error);
+  //   }
+  // };
 
   const handleLike = async () => {
     setIsLikeActive(!isLikeActive);
     if (!isLikeActive) {
       try {
         await likePost(postId, user._id);
-        fetchAndUpdateStats();
+        // fetchAndUpdateStats();
+        // Since constantly fetchAndUpdateStats is not a good idea, we can just increment the number of likes by 1
+        setNumberOfLikes((prev) => prev + 1);
       } catch (error) {
         console.error("Error liking post:", error);
       }
     } else {
       try {
         await unlikePost(postId, user._id);
-        fetchAndUpdateStats();
+        // fetchAndUpdateStats();
+        setNumberOfLikes((prev) => prev - 1);
       } catch (error) {
         console.error("Error un-liking post:", error);
       }

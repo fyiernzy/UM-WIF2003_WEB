@@ -36,20 +36,20 @@ class CommentService {
     return comment;
   }
 
-  async likeComment(commentId) {
+  async likeComment(commentId, userId) {
     const comment = await Comment.findByIdAndUpdate(
       commentId,
-      { $inc: { likes: 1 } },
+      { $addToSet: { likes: userId } },
       { new: true }
     );
     handleNotFound(comment, "Comment");
     return comment;
   }
 
-  async unlikeComment(commentId) {
+  async unlikeComment(commentId, userId) {
     const comment = await Comment.findByIdAndUpdate(
       commentId,
-      { $inc: { likes: -1 } },
+      { $pull: { likes: userId } },
       { new: true }
     );
     handleNotFound(comment, "Comment");
@@ -57,7 +57,9 @@ class CommentService {
   }
 
   async getCommentsByPostId(postId) {
-    const comments = await Comment.find({ post: postId }).populate("author");
+    const comments = await Comment.find({ post: postId })
+      .populate("author")
+      .sort({ createdAt: -1 });
     handleNotFound(comments, "Comments");
     return comments;
   }

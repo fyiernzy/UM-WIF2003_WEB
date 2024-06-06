@@ -88,6 +88,7 @@ export const likePost = async (postId, userId) => {
     const res = await axios.post(`${API_URL}/posts/${postId}/likes`, {
       userId,
     });
+    console.log("postApi/likePost response", res);
     readAndLog(res, "Post liked successfully", "Failed to like post");
   } catch (err) {
     console.error("Error liking post:", err);

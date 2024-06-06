@@ -19,16 +19,14 @@ class CommentController extends BaseController {
   }
 
   async addComment(req, res) {
-    validateRequest(addCommentSchema)(req, res, async () => {
-      await this.handleRequest(
-        req,
-        res,
-        CommentService.addComment,
-        req.params.postId,
-        req.body.userId,
-        req.body.comment
-      );
-    });
+    await this.handleRequest(
+      req,
+      res,
+      CommentService.addComment,
+      req.params.postId,
+      req.body.userId,
+      req.body.comment
+    );
   }
 
   async deleteComment(req, res) {
@@ -55,25 +53,23 @@ class CommentController extends BaseController {
   }
 
   async likeComment(req, res) {
-    validateRequest(commentIdSchema)(req, res, async () => {
-      await this.handleRequest(
-        req,
-        res,
-        CommentService.likeComment,
-        req.params.commentId
-      );
-    });
+    await this.handleRequest(
+      req,
+      res,
+      CommentService.likeComment,
+      req.params.commentId,
+      req.body.userId
+    );
   }
 
   async unlikeComment(req, res) {
-    validateRequest(commentIdSchema)(req, res, async () => {
-      await this.handleRequest(
-        req,
-        res,
-        CommentService.unlikeComment,
-        req.params.commentId
-      );
-    });
+    await this.handleRequest(
+      req,
+      res,
+      CommentService.unlikeComment,
+      req.params.commentId,
+      req.body.userId
+    );
   }
 
   async getCommentsByPostId(req, res) {

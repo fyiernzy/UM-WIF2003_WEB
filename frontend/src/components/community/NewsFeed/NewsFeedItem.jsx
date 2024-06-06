@@ -11,6 +11,7 @@ import ActionButtons from "./ActionButtons";
 function NewsFeedItem({
   authorImage,
   authorName,
+  authorHeadline,
   postId,
   postTitle,
   postContent,
@@ -45,7 +46,7 @@ function NewsFeedItem({
       <ProfileHeader
         img={avatar}
         name={authorName}
-        title={""}
+        title={authorHeadline}
         time={formattedTime}
       />
       <div className="news-feed-item-content">
