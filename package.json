@@ -1,8 +1,10 @@
 {
   "dependencies": {
     "formik": "^2.4.6",
+    "nodemailer": "^6.9.13",
     "react-datepicker": "^6.9.0",
     "react-hook-form": "^7.51.5",
+    "react-toastify": "^10.0.5",
     "socket.io": "^4.7.5",
     "yup": "^1.4.0"
   }

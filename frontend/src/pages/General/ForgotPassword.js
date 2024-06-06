@@ -1,36 +1,58 @@
 import "../../pages-css/General/General.css";
 import React, { useState } from "react";
 import sideBackground from "../../assets/images/General/LOGIN.png";
+import { checkEmail, forgotPassword } from "../../api/authApi"; // Ensure the import is correct
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [errorMessages, setErrorMessages] = useState({});
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationType, setNotificationType] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent page reload
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    // Validate input fields (replace with your own logic)
     if (!email) {
       setErrorMessages({ name: "email", message: "Please enter your email" });
-    } else {
-      // Proceed with forgot password logic
-      console.log("Forgot password: ", email);
+      return;
+    }
+
+    try {
+      // Check if the email exists in the database
+      const emailExists = await checkEmail(email);
+      console.log(email);
+      
+      if (emailExists) {
+        // If email exists, proceed to NewPass page
+        navigate("/NewPass", { state: { email } });
+      } else {
+        // If email doesn't exist, show a toast message
+        toast.error("User not registered. Please register first.", { autoClose: 3000 });
+      }
+    } catch (error) {
+      console.error("Error during check email request:", error);
+      setNotificationMessage("An error occurred while checking email.");
+      setNotificationType("error");
     }
   };
 
-  // Generate JSX code for error message
   const renderErrorMessage = (name) =>
     name === errorMessages.name && (
       <div className="error">{errorMessages.message}</div>
     );
+
   return (
     <div className="login-background">
-      <img className="login-flower-pic" src={sideBackground}></img>
+      <ToastContainer />
+      <img className="login-flower-pic" src={sideBackground} alt="Side background" />
       <form onSubmit={handleSubmit} className="login-forgot-container">
         <h2 className="login-title">Forgot Password</h2>
         <p className="login-transparent-text">
-          Enter your email for the verification process, we will send 4 digits
-          code to your email.
+          Enter your email for the verification process.
         </p>
         <div className="login-input-container">
           <input
@@ -44,12 +66,13 @@ function ForgotPassword() {
           {renderErrorMessage("email")}
         </div>
         <div className="login-button-container1">
-          <input
-            onClick={() => (window.location.href = "/EnterCode")}
-            type="submit"
-            value="Send Code"
-          />
+          <input type="submit" value="Verify" />
         </div>
+        {notificationMessage && (
+          <div className={`notification ${notificationType}`}>
+            {notificationMessage}
+          </div>
+        )}
       </form>
     </div>
   );
