@@ -1,6 +1,6 @@
 import NotificationMenu from "./NotificationMenu";
 import { useEffect, useState } from "react";
-import "../../pages-css/Jobscape/YourJobsPage.css";
+import "../../components-css/NotificationBell.css";
 import { socket } from "../../api/socketApi";
 import { useUserContext } from "../../context/UserContext";
 import {
@@ -61,7 +61,9 @@ export default function NotificationBell(props) {
         onMouseLeave={handleMouseLeave}
         onClick={toggleNotif}
       />
-      <span className="notif-count">{notifications.length}</span>
+
+      {notifications.length > 0 ? <i class="bi bi-circle-fill" /> : <></>}
+
       <NotificationMenu
         isOpen={isNotifOpen}
         notifs={notifications}

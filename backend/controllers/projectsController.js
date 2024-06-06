@@ -162,7 +162,7 @@ export const addApplyingProject = async (req, res) => {
       project.applicants.push(userId);
       await project.save();
     }
-    const notif = buildApplyingMessage(userId, project.postedBy, project);
+    const notif = buildApplyingMessage(user, project);
     await saveNotification(notif);
     res.status(200).json({ user, project });
   } catch (error) {

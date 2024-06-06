@@ -2,7 +2,7 @@ import express from "express";
 import {
   SelectedWallet,
   SelectedBank,
-  CreditOrDebitCard,
+  CreditOrDebitCard
 } from "../models/payment.js";
 import { Project } from "../models/projectModel.js";
 
@@ -150,14 +150,12 @@ router.get("/task", async (req, res) => {
         return res.status(400).json({ message: "User ID is required." });
       }
 
-      let projects = await Project.find({ postedBy : postedBy }, 'projectTitle projectBudget projectDescription location projectCategory projectDuration contactInformation deadline additionalNotes');
+      let projects = await Project.find({ postedBy : postedBy , completed : true }, 'projectTitle projectBudget projectDescription location projectCategory projectDuration contactInformation deadline additionalNotes');
       res.status(200).json(projects);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal server error." });
     }
   });
-
-
 
 export default router;

@@ -43,6 +43,26 @@ router.get("/:status", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+router.put('/move-to-in-progress/:projectId', async (req, res) => {
+  try {
+    const { projectId } = req.params;
+
+    // Update the project status to in-progress
+    const updatedProject = await Project.findByIdAndUpdate(
+      projectId,
+      { status: 'in-progress' },
+      { new: true }
+    ).populate('serviceProvider'); // Make sure to populate the serviceProvider
+
+    if (!updatedProject) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    res.json(updatedProject);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
 
 // Route to fetch applicants for a specific project
 router.get("/posted/:projectId/applicants", async (req, res) => {
@@ -84,7 +104,7 @@ router.put("/posted/:projectId/confirm", async (req, res) => {
     project.serviceProvider = userID;
     project.taken = true;
     await project.save();
-    const notif = buildApplicationSuccessMessage(userID, project);
+    const notif = buildApplicationSuccessMessage(user, project);
     await saveNotification(notif);
     res.json({ project, user });
   } catch (error) {
@@ -138,7 +158,7 @@ router.delete("/posted/:projectId", async (req, res) => {
 router.post("/:projectId/accept-file", async (req, res) => {
   const { projectId } = req.params;
   const { userId } = req.body;
-
+  console.log("userid in accept file: " + userId);
   try {
     const project = await Project.findById(projectId);
     if (!project) {
@@ -158,7 +178,9 @@ router.post("/:projectId/accept-file", async (req, res) => {
 
     res.json({ message: "File accepted" });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({
+      error: "Inside accept-file endpoint " + error.message,
+    });
   }
 });
 

@@ -4,27 +4,29 @@ import "../../components-css/Profile/JobHistoryCSS.css";
 import { useNavigate } from "react-router-dom";
 import { getCompletedProjects } from "../../api/projectApi";
 import noJob from "../../assets/profile/no_job.svg";
+import axios from "../../utils/customAxios";
 
-const JobHistory = ({ userId }) => {
-  const [completedProjects, setCompletedProject] = useState([]);
+
+const JobHistoryRecruiter = ({ userId }) => {
+  const [postedProjects, setProjectPosted] = useState([]);
   const [error, setError] = useState(null); 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCompletedProjects = async () => {
+    const fetchData = async () => {
       try {
-        const response = await getCompletedProjects(userId);
-        setCompletedProject(response.completedProjects);
+        const postedResponse = await axios.get(
+          `http://localhost:5050/recruite/posted?userId=${userId}`
+        );
+        setProjectPosted(postedResponse.data);
+
       } catch (error) {
-        console.error("Error: " + error.message);
+        console.error("Error fetching projects:", error);
       }
     };
-    fetchCompletedProjects();
-  }, []);
 
-  useEffect(() => {
-    console.log("Current completed projects: ", completedProjects);
-  }, [completedProjects]);
+    fetchData();
+  }, [userId]);
   
   const handleClick = (projectId) => {
     navigate(`/SeekJobPage/job-details/${projectId}`);
@@ -34,7 +36,7 @@ const JobHistory = ({ userId }) => {
     return <p>{error}</p>; 
   }
 
-  if (completedProjects.length === 0) {
+  if (postedProjects.length === 0) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <img style={{ width: '150px', height: '100px' }} src={noJob} alt="No Job" />
@@ -44,12 +46,12 @@ const JobHistory = ({ userId }) => {
 
   return (
     <>
-      {completedProjects.map((jobInfo, index) => (
+      {postedProjects.map((jobInfo, index) => (
         <div key={index} className="job-history-card">
           <Row className="header">
             <Col xs={7} className="info-column">
               <h3 className="fs-5"><strong>{jobInfo.projectTitle}</strong></h3>
-              <p>{jobInfo.companyName}</p>
+              <p>Posted by {jobInfo.postedDate}</p>
             </Col>
             <Col xs={3} className="status-column fs-6">
               <p>{jobInfo.completed ? "Completed" : "Ongoing"}</p>
@@ -70,4 +72,4 @@ const JobHistory = ({ userId }) => {
   );
 };
 
-export default JobHistory;
+export default JobHistoryRecruiter;

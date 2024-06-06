@@ -22,8 +22,6 @@
 .CompletedProjectTab .projectDetails {
   width: 100%;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .CompletedProjectTab .content {
@@ -37,7 +35,6 @@
 .CompletedProjectTab .content .Details {
   width: 50%;
   color: #2d4777;
-  font-weight: 500;
   font-size: 16px;
 }
 

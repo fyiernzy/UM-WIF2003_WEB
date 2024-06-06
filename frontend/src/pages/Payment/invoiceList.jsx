@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import "../../pages-css/Payment/Payment.css";
 import Tnc from "../../components/payment/tnc";
 import { useUserContext } from "../../context/UserContext";
@@ -56,17 +55,22 @@ function InvoiceList() {
       fetchInvoiceContent(user._id);
     }
   }, [user]);
-
  
-  const handleDownload = async () => {
+  const handleDownload = async (invoiceContent) => {
     try {
-      if (invoiceContent && invoiceContent.length > 0) {
-        invoiceContent.forEach((invoiceContent, index) => {
+      if (invoiceContent) {
+        invoiceContent.forEach(async (invoiceContent, index) => {
           const doc = new jsPDF();
 
-          doc.setFontSize(14);
+          
+
+          doc.setFontSize(24);
           doc.setFont('helvetica', 'bold');
-          doc.text(`Project ${index + 1} Details`, 20, 20);
+          const titleText = 'Invoice';
+          const titleWidth = doc.getStringUnitWidth(titleText) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+          const titleX = (doc.internal.pageSize.width - titleWidth) / 2;
+          doc.text(titleText, titleX, 20);
+          
   
           doc.setFontSize(12);
           doc.setFont('helvetica', 'normal');
@@ -113,7 +117,7 @@ function InvoiceList() {
   };
     
   const handleInvClick = () => {
-        handleDownload();
+        handleDownload(invoiceContent);
       };
 
   return (

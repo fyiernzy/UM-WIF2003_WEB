@@ -53,7 +53,6 @@ export default function YourJobsPage() {
           <div style={{ textAlign: "center" }}>
             <h1 className="your-jobs-title">Your Jobs</h1>
           </div>
-          <NotificationBell />
         </div>
         <h3 className="completed-jobs-title">Applying Jobs</h3>
         <ApplyingJobsList userId={user._id} />

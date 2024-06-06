@@ -3,6 +3,7 @@
   align-items: center;
   padding: 10px 1.5vw 10px 1.5vw;
   justify-content: space-between;
+  color: #2d4777;
   transition: all 0.3s ease;
 }
 .notif-item-container:hover {

@@ -1,0 +1,15 @@
+.notif-bell {
+  position: absolute;
+  right: 8vw;
+}
+.bell {
+  cursor: pointer;
+  font-size: 24px;
+}
+.notif-bell .bi-circle-fill {
+  font-size: 0.5rem;
+  color: red;
+  position: absolute;
+  right: 0;
+  top: -5px;
+}

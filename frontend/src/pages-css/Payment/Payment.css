@@ -80,10 +80,10 @@
 }
 
 .card-wenhao {
-  background-color: rgba(152, 149, 149, 0.2);
-  backdrop-filter: blur(10px);
+  background-color: rgb(203 213 225);
+  /* backdrop-filter: blur(10px); */
   border-radius: 30px;
-  height: 80vh;
+  height: 70vh;
   margin-top: 2vh;
   padding-top: 5vh;
   padding-left: 7vh;
