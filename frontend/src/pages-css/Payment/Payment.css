@@ -119,7 +119,7 @@
 .RightContainer {
   background-color: #2d4777;
   border-radius: 50px;
-  height: 540px;
+  height: 630px;
   margin-top: 30px;
   margin-right: 70px;
 }
@@ -154,7 +154,7 @@
 .titleRight {
   font-family: "Lato", sans-serif;
   font-weight: bold;
-  margin-top: 30px;
+  margin-top: 28px;
   margin-left: 40px;
   font-size: 25px;
   margin-bottom: 20px;
