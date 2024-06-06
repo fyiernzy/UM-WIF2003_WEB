@@ -16,7 +16,6 @@ export const postRegistration = async (
       userType,
     });
     console.log(res);
-    navigate("/Login");
   } catch (err) {
     console.error("postRegistration error: " + err);
   }
@@ -38,6 +37,22 @@ export const getUser = async (email, password) => {
     return res.data.user;
   } catch (error) {
     console.error(error);
+  }
+};
+export const checkEmail = async (email) => {
+  try {
+    const res = await axios.post(
+      "http://localhost:5050/auth/checkEmail",
+      { email },
+      { withCredentials: true }
+    );
+    console.log("checkEmail - response headers:", res.headers);
+    console.log("checkEmail - cookies:", document.cookie);
+    
+    if (!res.data.exists) return console.error("Email not found");
+    return res.data.exists;
+  } catch (error) {
+    console.error("Error checking email:", error);
   }
 };
 
@@ -64,3 +79,21 @@ export const logoutUser = async () => {
     return { status: false };
   }
 };
+
+export const forgotPassword = async (email) => {
+  console.log("in forgot password");
+  try {
+    console.log("in forgot password2");
+    const res = await axios.post(
+      "http://localhost:5050/auth/forgotpassword",
+      { email },
+      { withCredentials: true }
+    );
+    console.log("in forgot password3");
+    return res.data;
+  } catch (error) {
+    console.error("Error in forgot password:", error);
+    throw error;
+  }
+};
+

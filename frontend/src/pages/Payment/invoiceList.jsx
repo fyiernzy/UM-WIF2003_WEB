@@ -129,12 +129,14 @@ function InvoiceList() {
           <p className="INV-title-name">Invoice List</p>
 
           {invoices.map((invoice, index) => (
-            <div key={index} className="INV" onClick={() => handleInvClick(invoice)}>
+            <div key={index} className="INV">
               <p className="INVName">Completed</p>
               <p className="INVPrice">{invoice.projectTitle}</p>
               <p className="INVDesc">RM {parseFloat(invoice.projectBudget) + 10}</p>
             </div>
           ))}
+
+          <button onClick={() => handleInvClick()} style={{marginLeft: '60vh'}} className="buttonDown">Download</button>
         </div>
       </div>
     </div>
