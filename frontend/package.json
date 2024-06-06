@@ -21,6 +21,7 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "builtin-modules": "^4.0.0",
+    "circular-json": "^0.5.9",
     "ejs": "^3.1.10",
     "emoji-mart": "^5.6.0",
     "emoji-picker-react": "^4.9.3",
