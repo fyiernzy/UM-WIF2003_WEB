@@ -9,6 +9,7 @@ import { getRandomAvatar } from "../../../utils/tools";
 import ActionButtons from "./ActionButtons";
 
 function NewsFeedItem({
+  authorId,
   authorImage,
   authorName,
   authorHeadline,
@@ -48,6 +49,7 @@ function NewsFeedItem({
         name={authorName}
         title={authorHeadline}
         time={formattedTime}
+        userId={authorId}
       />
       <div className="news-feed-item-content">
         <h2 className="content-title tw-font-bold tw-mb-4">{postTitle}</h2>
