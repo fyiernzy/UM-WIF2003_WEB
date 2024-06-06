@@ -18,7 +18,7 @@ function CommunityPage() {
               user && user.role ? user.role : "User hasn't specify the role"
             }
           />
-          <ExploreList exploreListData={exploreListData} />
+          {/* <ExploreList exploreListData={exploreListData} /> */}
         </div>
 
         <div className="xl:tw-col-span-8 tw-pl-5">
