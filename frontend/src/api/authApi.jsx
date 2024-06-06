@@ -16,7 +16,6 @@ export const postRegistration = async (
       userType,
     });
     console.log(res);
-    navigate("/Login");
   } catch (err) {
     console.error("postRegistration error: " + err);
   }

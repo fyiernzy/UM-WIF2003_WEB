@@ -13,7 +13,9 @@ function NewPass() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessages, setErrorMessages] = useState({});
   const [showNotification, setShowNotification] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(true); // Open modal by default
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const [notificationType, setNotificationType] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email;
@@ -40,11 +42,20 @@ function NewPass() {
       });
       toast.error("Passwords do not match", { autoClose: 3000 });
     } else {
+      setNotificationMessage("Reset Successfully!");
+      setNotificationType("success");
+      setShowNotification(true);
+      setTimeout(() => {
+        setShowNotification(false);
+        navigate("/login");
+      }, 3000);
       console.log(password, " and", confirmPassword);
       try {
         const res = await axios.post("http://localhost:5050/auth/reset-password", { email, password });
 
         if (res.data.success) {
+          setNotificationMessage("Reset Successfully!");
+          setNotificationType("success");
           setShowNotification(true);
           setTimeout(() => {
             setShowNotification(false);
@@ -95,9 +106,8 @@ function NewPass() {
           />
         </div>
         {renderErrorMessage("password")}
-        {showNotification && (
-          <Notification message="Password Reset Successfully!" />
-        )}
+        {showNotification && <Notification message={notificationMessage} type={notificationType} />}
+        
         <div className="login-button-container2">
           <input type="submit" value="Reset Password" />
         </div>

@@ -52,7 +52,7 @@ function ForgotPassword() {
       <form onSubmit={handleSubmit} className="login-forgot-container">
         <h2 className="login-title">Forgot Password</h2>
         <p className="login-transparent-text">
-          Enter your email for the verification process, we will send a 4-digit code to your email.
+          Enter your email for the verification process.
         </p>
         <div className="login-input-container">
           <input
@@ -66,7 +66,7 @@ function ForgotPassword() {
           {renderErrorMessage("email")}
         </div>
         <div className="login-button-container1">
-          <input type="submit" value="Send Code" />
+          <input type="submit" value="Verify" />
         </div>
         {notificationMessage && (
           <div className={`notification ${notificationType}`}>
