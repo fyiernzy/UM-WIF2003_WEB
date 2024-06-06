@@ -95,39 +95,58 @@ const CompletedProjectTab = ({
       });
   };
 
+
+  const handlePayBtnClick = async () => {
+    if (isProjectAccepted) {
+      try {
+        // Update the payment status in the database
+        const updateResponse = await fetch(`http://localhost:5050/payment/updatePaymentStatus/${projectId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ paymentStatus: true }),
+        });
+  
+        if (!updateResponse.ok) {
+          throw new Error(`Error updating payment status: ${updateResponse.statusText}`);
+        }
+  
+        // Fetch project data
+        const projectResponse = await fetch(`http://localhost:5050/projects/${projectId}`);
+        const data = await projectResponse.json();
+        const { projectTitle, projectBudget } = data;
+  
+        // Update local storage
+        localStorage.setItem("projectTitle", projectTitle);
+        localStorage.setItem("projectBudget", projectBudget);
+        localStorage.setItem(`paymentStatus_${projectId}`, "Paid");
+  
+        // Update button appearance
+        setButtonText("Paid");
+        setButtonDisabled(true);
+        setButtonColor("#d3d3d3");
+  
+        // Navigate to the ewallet page
+        navigate("/ewallet", {
+          state: { projectTitle, projectBudget },
+        });
+      } catch (error) {
+        console.error("Error during payment process:", error);
+      }
+    }
+  };
+
   useEffect(() => {
     // Check if payment is already done for this project
     const paymentStatus = localStorage.getItem(`paymentStatus_${projectId}`);
-    if (paymentStatus === "Paid") {
+    if (paymentStatus === 'Paid') {
       setButtonText("Paid");
       setButtonDisabled(true); 
       setButtonColor("#d3d3d3");
     }
   }, []);
-
-
-  const handlePayBtnClick = async () => {
-    if (isProjectAccepted) {
-      try {
-        const response = await fetch(
-          `http://localhost:5050/projects/${projectId}`
-        );
-        const data = await response.json();
-        const { projectTitle, projectBudget } = data;
-
-        localStorage.setItem("projectTitle", projectTitle);
-        localStorage.setItem("projectBudget", projectBudget);
-
-        localStorage.setItem(`paymentStatus_${projectId}`, "Paid");
-
-        navigate("/ewallet", {
-          state: { projectTitle, projectBudget },
-        });
-      } catch (error) {
-        console.error("Error fetching project data:", error);
-      }
-    }
-  };
+  
 
   const handleCloseProjectDetails = () => {
     setShowProjectDetails(false);
